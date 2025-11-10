@@ -1,13 +1,16 @@
 package model;
 
-public abstract class Menultem implements Serializable {
+import java.io.Serializable;
+import java.util.UUID;
+
+public abstract class MenuItem implements Serializable {
     protected String id;
     protected String name;
     protected String type;
     protected double price;
     protected double discount; // %
 
-    public Menultem(String name, String type, double price, double discount) {
+    public MenuItem(String name, String type, double price, double discount) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.type = type;
@@ -21,8 +24,6 @@ public abstract class Menultem implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %.0fđ (-%.0f%%)", id, name, type, price, discount);
+        return String.format("[%s] %s (%s) - %.0f đ (-%.0f%%)", id, name, type, price, discount);
     }
 }
-
-

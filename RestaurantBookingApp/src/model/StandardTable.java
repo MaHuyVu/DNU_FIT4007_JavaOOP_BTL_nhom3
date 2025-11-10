@@ -1,8 +1,13 @@
 package model;
+
 public class StandardTable extends Table {
-    public StandardTable(int capacity) { super(capacity); }
+
+    public StandardTable(int seats) {
+        super("STANDARD", seats, 0); // bàn thường không có phụ phí
+    }
+
     @Override
-    public double getSurcharge() {
-        return 0; // không phụ phí
+    public String toString() {
+        return super.toString() + " | Surcharge: 0₫";
     }
 }
