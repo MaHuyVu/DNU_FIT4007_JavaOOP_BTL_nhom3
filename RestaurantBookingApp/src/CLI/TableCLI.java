@@ -3,7 +3,49 @@ package CLI;
 import java.util.Scanner;
 
 public class TableCLI {
+    private String tableId;
+    private int seatCount;
+    private String status;
     private final Scanner sc = new Scanner(System.in);
+
+
+    public TableCLI(String tableId, int seatCount, String status) {
+        this.tableId = tableId;
+        this.seatCount = seatCount;
+        this.status = status;
+    }
+
+    public TableCLI() {
+
+    }
+
+    public String getTableId() {
+        return tableId;
+    }
+
+    public void setTableId(String tableId) {
+        this.tableId = tableId;
+    }
+
+    public int getSeatCount() {
+        return seatCount;
+    }
+
+    public void setSeatCount(int seatCount) {
+        this.seatCount = seatCount;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Scanner getSc() {
+        return sc;
+    }
 
     public void menu() {
         int choice;
