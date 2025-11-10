@@ -1,0 +1,31 @@
+id,name,phone,email,isVip
+c001,Đào Văn Minh,0862542625,daovminh165@gmail.com,false
+c002,Ma Huy Vũ,0000000001,vu@yahoo.com,false
+c003,Đồng Đỗ Bảo,0000000002,bảo@gmail.com,false
+c004,Nguyễn Quốc Khánh,0292929290,quockhanh@gmail.com,false
+c005,Nguyễn Viết Trọng,0000000003,trong@gmail.com,false
+c006,Nguyễn Văn Vũ,0000000004,vanvu@gmail.com,false
+c007,Nguyễn Nhật Minh,0000000005,minh@yahoo.com,false
+c008,Trần Đức Long,0000000006, long@gmail.com,false
+c009,Triệu Thu Trang,0000000007,trang@gmail.com,false
+c010,Nguyễn Mạnh Lâm,0000000008,lam@gmail.com,false
+c011,Nguyễn Văn Khánh,0000000009,khanh@gmail.com,false
+c012,Phạm Văn Long,0000000010,long@yahoo.com,false
+c013,Trần Văn Minh,0000000011,minh@outlook.com,false
+c014,Lê Thị Ngọc,0000000012,ngoc@gmail.com,false
+c015,Hoàng Văn Nam,0000000013,nam@gmail.com,false
+c016,Vũ Thị Oanh,0000000014,oanh@gmail.com,false
+c017,Đặng Văn Phú,0000000015,phu@yahoo.com,false
+c018,Bùi Văn Quốc,0000000016,quoc@gmail.com,false
+c019,Đỗ Thị Mai,0000000017,mai@company.com,false
+c020,Trương Văn Sơn,0000000018,son@gmail.com,false
+c101,Lý Thị Kim Oanh,0000000019,vip1@elite.com,true
+c102,Phan Văn Tuấn,0000000020,vip2@elite.com,true
+c103,Huỳnh Thị Lan Anh,0000000021,vip3@elite.com,true
+c104,Mai Văn Hùng,0000000022,vip4@elite.com,true
+c105,Đinh Thị Ngọc Huyền,0000000023,vip5@elite.com,true
+c021,Nguyễn Văn Tèo,0000000024,teo@gmail.com,false
+c022,Trần Thị Tí,0000000025,ti@gmail.com,false
+c023,Lê Văn Tẹo,0000000026,teo2@gmail.com,false
+c024,Phạm Văn Tèo,0000000027,teo3@gmail.com,false
+c025,Lê Thành Đạt,0000000028,shuzinn@gmail.com,false
