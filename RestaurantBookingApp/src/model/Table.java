@@ -1,25 +1,62 @@
 package model;
-public abstract class MenuItem implements Serializable {
-    protected String id;
-    protected String name;
-    protected String type;
-    protected double price;
-    protected double discount; // %
 
-    public MenuItem(String name, String type, double price, double discount) {
+import java.io.Serializable;
+import java.util.UUID;
+
+public abstract class Table implements Serializable {
+    protected String id;
+    protected String type;
+    protected int seats;
+    protected double surcharge;
+
+    public Table(String type, int seats, double surcharge) {
         this.id = UUID.randomUUID().toString();
-        this.name = name;
         this.type = type;
-        this.price = price;
-        this.discount = discount;
+        this.seats = seats;
+        this.surcharge = surcharge;
     }
 
-    public double getFinalPrice() {
-        return price * (1 - discount / 100);
+    // Getters
+    public String getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public double getSurcharge() {
+        return surcharge;
+    }
+
+    // Setters
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
+
+    public void setSurcharge(double surcharge) {
+        this.surcharge = surcharge;
     }
 
     @Override
     public String toString() {
-        return String.format("[%s] %s (%s) - %.0fđ (-%.0f%%)", id, name, type, price, discount);
+        return String.format("Table[%s] Type: %s, Seats: %d, Surcharge: %.0f₫",
+                id, type, seats, surcharge);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Table table = (Table) obj;
+        return id.equals(table.id);
+    }
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 }
