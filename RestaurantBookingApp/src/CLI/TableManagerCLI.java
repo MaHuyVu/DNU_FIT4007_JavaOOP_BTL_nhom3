@@ -115,4 +115,7 @@ public class TableManagerCLI {
             }
         }
     }
+
+    public void displaymenu() {
+    }
 }
