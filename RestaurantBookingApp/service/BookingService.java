@@ -14,7 +14,7 @@ public class BookingService {
         this.bookings = new ArrayList<>();
     }
 
-    // ------------------ ĐẶT BÀN ------------------
+
     public Booking bookTable(Customer customer, String tableId, String date, String time)
             throws TableAlreadyBookedException, TableNotFoundException {
 
@@ -31,7 +31,7 @@ public class BookingService {
         return booking;
     }
 
-    // ------------------ HỦY ĐẶT BÀN ------------------
+
     public void cancelBooking(String bookingId) throws BookingNotFoundException {
         Booking booking = findBookingById(bookingId);
         if (booking == null)
@@ -41,7 +41,7 @@ public class BookingService {
         System.out.println("❌ Hủy đặt bàn thành công cho khách " + booking.getCustomer().getName());
     }
 
-    // ------------------ XÁC NHẬN ĐẶT BÀN ------------------
+
     public void confirmBooking(String bookingId) throws BookingNotFoundException {
         Booking booking = findBookingById(bookingId);
         if (booking == null)
@@ -51,7 +51,7 @@ public class BookingService {
         System.out.println("✅ Xác nhận đặt bàn cho " + booking.getCustomer().getName());
     }
 
-    // ------------------ HOÀN TẤT BÀN ------------------
+
     public void completeBooking(String bookingId) throws BookingNotFoundException {
         Booking booking = findBookingById(bookingId);
         if (booking == null)
@@ -61,7 +61,7 @@ public class BookingService {
         System.out.println("🍽️ Bàn của " + booking.getCustomer().getName() + " đã hoàn tất!");
     }
 
-    // ------------------ KIỂM TRA TRÙNG ------------------
+
     private boolean isTableBooked(String tableId, String date, String time) {
         for (Booking b : bookings) {
             if (b.getTable().getId().equals(tableId)
@@ -74,7 +74,7 @@ public class BookingService {
         return false;
     }
 
-    // ------------------ HÀM HỖ TRỢ ------------------
+
     private Table findTableById(String tableId) {
         for (Table t : tables) {
             if (t.getId().equals(tableId))

@@ -2,6 +2,8 @@ package service;
 
 import model.MenuItem;
 
+import java.util.List;
+
 public class MenuService {
     public void loadMenu() {
     }
@@ -16,5 +18,11 @@ public class MenuService {
     }
 
     public boolean deleteMenuItem(String id) {
+    }
+
+    public List<MenuItem> sortByPrice(boolean b) {
+    }
+
+    public List<MenuItem> sortByDiscount(boolean b) {
     }
 }

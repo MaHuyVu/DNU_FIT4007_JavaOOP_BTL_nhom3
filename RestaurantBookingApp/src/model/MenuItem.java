@@ -38,4 +38,7 @@ public abstract class MenuItem implements Serializable {
     public String toString() {
         return String.format("[%s] %s (%s) - %.0fđ (-%.0f%%)", id, name, category, price, discount);
     }
+
+    public Object getType() {
+    }
 }
