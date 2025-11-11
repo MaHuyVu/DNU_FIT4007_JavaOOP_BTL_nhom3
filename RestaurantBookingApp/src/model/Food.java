@@ -1,7 +1,7 @@
 package model;
 
 public class Food extends MenuItem {
-    public Food(String name, double price, double discount) {
+    public Food(String name, String s, double price, double discount) {
         super(name, "Food", price, discount);
     }
 

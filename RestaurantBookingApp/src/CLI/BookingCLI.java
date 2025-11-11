@@ -1,7 +1,6 @@
 package CLI;
 
 import model.Booking;
-import service.BookingService;
 
 import java.util.List;
 import java.util.Scanner;
