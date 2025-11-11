@@ -55,4 +55,7 @@ public class MenuManagerCLI {
 
         System.out.println(" Dữ liệu đã được lưu vào tệp!");
     }
+
+    public void run() {
+    }
 }

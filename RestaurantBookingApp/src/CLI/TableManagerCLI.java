@@ -8,7 +8,7 @@ public class TableManagerCLI {
     private List<TableCLI> TableList = new ArrayList<>();
     private Scanner sc = new Scanner(System.in);
 
-    // Show menu
+
     public void run() {
         int choice;
         do {
@@ -32,7 +32,7 @@ public class TableManagerCLI {
         } while (choice != 0);
     }
 
-    // 1️⃣ Add
+
     private void addTableCLI() {
         System.out.print("Nhập mã bàn: ");
         String id = sc.nextLine();
@@ -46,7 +46,7 @@ public class TableManagerCLI {
         System.out.println("Thêm bàn ăn thành công!");
     }
 
-    // 2️⃣ Edit
+
     private void editTableCLI() {
         System.out.print("Nhập mã bàn cần sửa: ");
         String id = sc.nextLine();
@@ -67,7 +67,7 @@ public class TableManagerCLI {
         System.out.println(" Cập nhật bàn ăn thành công!");
     }
 
-    // 3️⃣ Delete
+
     private void deleteTableCLI() {
         System.out.print("Nhập mã bàn cần xóa: ");
         String id = sc.nextLine();
@@ -81,7 +81,7 @@ public class TableManagerCLI {
         }
     }
 
-    // 4️⃣ Display all
+
     private void showTableCLIs() {
         if (TableList.isEmpty()) {
             System.out.println("Danh sách bàn ăn trống.");
@@ -95,7 +95,7 @@ public class TableManagerCLI {
         System.out.println("===========================");
     }
 
-    // Helper: find by ID
+
     private TableCLI findTableCLIById(String id) {
         for (TableCLI t : TableList) {
             if (t.getTableId().equalsIgnoreCase(id)) {
@@ -105,7 +105,7 @@ public class TableManagerCLI {
         return null;
     }
 
-    // Helper: safe integer input
+
     private int readInt() {
         while (true) {
             try {
