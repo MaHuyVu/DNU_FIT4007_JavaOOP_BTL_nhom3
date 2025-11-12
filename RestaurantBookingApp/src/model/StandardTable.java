@@ -2,7 +2,7 @@ package model;
 
 public class StandardTable extends Table {
 
-    public StandardTable(int seats) {
+    public StandardTable(int i, int seats) {
         super("STANDARD", seats, 0); // bàn thường không có phụ phí
     }
 

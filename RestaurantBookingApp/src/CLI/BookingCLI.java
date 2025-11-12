@@ -1,6 +1,7 @@
 package CLI;
 
 import model.Booking;
+import service.BookingService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -8,7 +9,6 @@ import java.util.Scanner;
 public class BookingCLI {
     private final Scanner sc = new Scanner(System.in);
     private final BookingService bookingService = new BookingService();
-
     public void menu() {
         int choice;
         do {
