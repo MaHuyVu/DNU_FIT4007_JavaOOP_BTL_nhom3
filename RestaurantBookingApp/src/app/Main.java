@@ -1,11 +1,16 @@
 package app;
 
+
 import CLI.MenuManagerCLI;
+import CLI.TableManagerCLI;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
+        new MenuManagerCLI().run();
+        TableManagerCLI qlBan = new TableManagerCLI();
+        qlBan.displaymenu();
         MenuManagerCLI menuManager = new MenuManagerCLI();
 
         try {
