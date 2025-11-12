@@ -3,7 +3,7 @@ package model;
 import java.io.Serializable;
 import java.util.UUID;
 
-public abstract class Table implements Serializable {
+public class Table implements Serializable {
     protected String id;
     protected String type;
     protected int seats;
