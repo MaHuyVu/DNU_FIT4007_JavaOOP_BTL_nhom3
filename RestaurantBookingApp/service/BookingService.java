@@ -36,7 +36,7 @@ public class BookingService {
         bookings.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
-            String line = br.readLine(); // bỏ dòng tiêu đề
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length < 7) continue;
