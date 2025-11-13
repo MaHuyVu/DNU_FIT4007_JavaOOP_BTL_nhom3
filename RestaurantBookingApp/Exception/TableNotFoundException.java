@@ -1,4 +1,4 @@
-package model;
+package Exception;
 
 public class TableNotFoundException extends Exception {
     public TableNotFoundException(String message) {

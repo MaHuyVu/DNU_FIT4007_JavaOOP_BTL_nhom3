@@ -1,32 +1,42 @@
 package app;
 
+import CLI.BookingCLI;
+import service.TableService;
+import model.Table;
 
-import CLI.MenuManagerCLI;
-import CLI.TableManagerCLI;
-
-import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
-        new MenuManagerCLI().run();
-        TableManagerCLI qlBan = new TableManagerCLI();
-        qlBan.displaymenu();
-        MenuManagerCLI menuManager = new MenuManagerCLI();
 
-        try {
-            System.out.println(" Đang tải dữ liệu...");
-            menuManager.loadData();
-        } catch (IOException e) {
-            System.out.println(" Không thể tải dữ liệu: " + e.getMessage());
-        }
+        Scanner sc = new Scanner(System.in);
+        TableService tableService = new TableService();
 
-        menuManager.start();
+        // 🔹 Load danh sách bàn từ CSV
+        List<Table> tables = tableService.loadTables("data/tables.csv");
 
-        try {
-            menuManager.saveData();
-            System.out.println(" Dữ liệu đã được lưu. Tạm biệt ");
-        } catch (IOException e) {
-            System.out.println(" Lỗi khi lưu dữ liệu: " + e.getMessage());
-        }
+        BookingCLI bookingCLI = new BookingCLI(tables);
+
+        int choice;
+        do {
+            System.out.println("\n===== HỆ THỐNG QUẢN LÝ NHÀ HÀNG =====");
+            System.out.println("1. Quản lý đặt bàn");
+            System.out.println("0. Thoát");
+            System.out.print("Chọn: ");
+            try {
+                choice = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                choice = -1;
+            }
+
+            switch (choice) {
+                case 1 -> bookingCLI.menu();
+                case 0 -> System.out.println(" Thoát chương trình...");
+                default -> System.out.println(" Lựa chọn không hợp lệ!");
+            }
+
+        } while (choice != 0);
     }
 }

@@ -8,6 +8,10 @@ public class Customer extends Person {
         this.loyaltyPoints = 0;
     }
 
+    public Customer(String customerId) {
+        super();
+    }
+
     public int getLoyaltyPoints() {
         return loyaltyPoints;
     }
