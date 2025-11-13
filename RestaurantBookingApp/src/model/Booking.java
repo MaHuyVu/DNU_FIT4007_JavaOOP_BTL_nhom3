@@ -20,6 +20,9 @@ public class Booking implements Serializable {
         this.status = "Pending";
     }
 
+    public Booking(String id, Customer customer, Table table, String date, String time, int guests, String status) {
+    }
+
     // Getters
     public String getId() {
         return id;

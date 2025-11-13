@@ -1,4 +1,4 @@
-package model;
+package Exception;
 
 public class BookingNotFoundException extends Exception {
     public BookingNotFoundException(String message) {
