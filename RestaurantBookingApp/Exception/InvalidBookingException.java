@@ -1,4 +1,4 @@
-package model;
+package Exception;
 
 public class InvalidBookingException extends Exception {
     public InvalidBookingException(String message) {
