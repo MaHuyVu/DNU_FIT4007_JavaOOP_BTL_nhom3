@@ -10,7 +10,7 @@ public abstract class MenuItem implements Serializable {
     protected double price;
     protected double discount; // percent
 
-    public MenuItem(String name, String category, double price, double discount) {
+    public MenuItem(String name, double price, double discount) {
         this.id = UUID.randomUUID().toString();
         this.name = name;
         this.category = category;
@@ -40,5 +40,18 @@ public abstract class MenuItem implements Serializable {
     }
 
     public Object getType() {
+        return 0;
+    }
+
+    public void setName(String newName) {
+    }
+
+    public void setCategory(String newCategory) {
+    }
+
+    public void setPrice(double newPrice) {
+    }
+
+    public void setDiscount(double newDiscount) {
     }
 }

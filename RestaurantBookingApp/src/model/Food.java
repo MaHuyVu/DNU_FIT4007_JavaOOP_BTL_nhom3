@@ -1,15 +1,26 @@
 package model;
 
-public class Food extends MenuItem {
-<<<<<<< HEAD
-    public Food(String name, String category, double price, double discount) {
-=======
-    public Food(String name, String s, double price, double discount) {
->>>>>>> main
-        super(name, "Food", price, discount);
+import java.io.Serializable;
+
+public class Food extends MenuItem implements Serializable {
+
+    private boolean spicy; // Món có cay hay không
+
+    public Food(String name, String price, double discount, double spicy) {
+        super(name, Double.parseDouble(price), discount);
     }
+
+    public boolean isSpicy() {
+        return spicy;
+    }
+
+    public void setSpicy(boolean spicy) {
+        this.spicy = spicy;
+    }
+
     @Override
     public String toString() {
-        return super.toString() + " | Type: Food";
+        return String.format("🍛 Món ăn: %s | Giá: %.0f₫ | Giảm giá: %.0f%% | %s",
+                getName(), getPrice(), getDiscount(), (spicy ? "Cay" : "Không cay"));
     }
 }
