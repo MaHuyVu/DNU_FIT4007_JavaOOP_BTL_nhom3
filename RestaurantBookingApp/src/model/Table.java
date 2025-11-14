@@ -73,4 +73,7 @@ public class Table implements Serializable {
     public int hashCode() {
         return id.hashCode();
     }
+
+    public void setId(String id) {
+    }
 }

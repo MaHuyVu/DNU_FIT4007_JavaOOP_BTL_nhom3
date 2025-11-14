@@ -1,7 +1,7 @@
 package Exception;
 
-public class TableNotFoundException extends Exception {
-    public TableNotFoundException(String message) {
-        super(message);
+public class TableNotFoundException extends RuntimeException {
+    public TableNotFoundException(String tableId) {
+        super("Không tìm thấy bàn với ID: " + tableId);
     }
 }
