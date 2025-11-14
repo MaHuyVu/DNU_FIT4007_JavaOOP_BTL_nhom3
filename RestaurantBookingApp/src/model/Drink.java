@@ -1,20 +1,27 @@
 package model;
 
-/**
- * Drink là một MenuItem, không phải Table.
- * Constructor gọi MenuItem(name, category, price, discount).
- */
-public class Drink extends MenuItem {
-<<<<<<< HEAD
-    public Drink(String name, String category, double price, double discount) {
-=======
-    public Drink(String name, String s, double price, double discount) {
->>>>>>> main
-        super(name, "Drink", price, discount);
+import java.io.Serializable;
+
+public class Drink extends MenuItem implements Serializable {
+
+    private String size; // Kích cỡ: S, M, L
+
+    public Drink(String name, String price, double discount, double size) {
+        super(name, Double.parseDouble(price), discount);
+    }
+
+    // Getter & Setter
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | Type: Drink";
+        return String.format("🥤 Đồ uống: %s | Giá: %.0f₫ | Giảm giá: %.0f%% | Size: %s",
+                getName(), getPrice(), getDiscount(), size);
     }
 }

@@ -3,8 +3,8 @@ package model;
 public class Customer extends Person {
     private int loyaltyPoints;
 
-    public Customer(String name) {
-        super(name, phone);
+    public Customer(String phone, String name) {  // ✅ Thêm phone
+        super(phone, name);
         this.loyaltyPoints = 0;
     }
 
