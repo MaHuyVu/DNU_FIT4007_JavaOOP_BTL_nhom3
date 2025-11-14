@@ -30,7 +30,7 @@ public abstract class MenuItem {
         return discount;
     }
 
-    // ====== FIX lỗi =======
+
     public void setName(String name) {
         this.name = name;
     }

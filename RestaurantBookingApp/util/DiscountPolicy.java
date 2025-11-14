@@ -1,4 +1,6 @@
 package util;
 
-public class DiscountPolicy {
+@FunctionalInterface
+public interface DiscountPolicy {
+    double apply(double originalPrice, double discountRate);
 }

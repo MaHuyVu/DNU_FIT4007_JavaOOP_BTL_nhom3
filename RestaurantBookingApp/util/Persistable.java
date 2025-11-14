@@ -1,4 +1,8 @@
 package util;
 
-public class Persistable {
+import java.util.List;
+
+public interface Persistable<T> {
+    void saveAll(List<T> items);
+    List<T> loadAll();
 }
