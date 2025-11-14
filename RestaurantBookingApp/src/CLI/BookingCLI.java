@@ -10,17 +10,6 @@ import java.util.Scanner;
 public class BookingCLI {
 
     private final Scanner sc = new Scanner(System.in);
-    private final BookingService bookingService;
-    private final String FILE_PATH = "data/bookings.csv";
-
-    public BookingCLI(List<Table> tables) {
-        this.bookingService = new BookingService(tables);
-    }
-
-    private int readInt() {
-        try { return Integer.parseInt(sc.nextLine()); }
-        catch (Exception e) { return -1; }
-    }
 
     public void menu() {
 
