@@ -1,61 +1,93 @@
 package model;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.UUID;
 
-public class Invoice implements Serializable {
-    private String id;
-    private Booking booking;
-    private List<MenuItem> items;
-    private double total;
-    private String createdAt; // lưu chuỗi yyyy-MM-dd'T'HH:mm
+public class Invoice {
 
-    public Invoice(String id, Booking booking, List<MenuItem> items, double total, LocalDateTime createdAt) {
+    private String id;                    // Mã hóa đơn
+    private String bookingId;             // Mã đặt bàn
+    private List<MenuItem> items;         // Danh sách món đã gọi
+    private double totalAmount;           // Tổng tiền
+
+    // ============================
+    //  CONSTRUCTOR
+    // ============================
+    public Invoice(String id, String bookingId, List<MenuItem> items, double totalAmount) {
         this.id = id;
-        this.booking = booking;
+        this.bookingId = bookingId;
         this.items = items;
-        this.total = total;
-        this.createdAt = createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+        this.totalAmount = totalAmount;
     }
 
-    // helper constructor
-    public Invoice(Booking booking, List<MenuItem> items, double total) {
-        this(UUID.randomUUID().toString(), booking, items, total, LocalDateTime.now());
+    // ============================
+    //  GETTER - SETTER
+    // ============================
+    public String getId() {
+        return id;
     }
 
-    public String getId(){ return id; }
-    public Booking getBooking(){ return booking; }
-    public List<MenuItem> getItems(){ return items; }
-    public double getTotal(){ return total; }
-    public String getCreatedAt(){ return createdAt; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    // CSV line - include item ids separated by '|'
-    public String toCsvLine(){
-        StringBuilder sb = new StringBuilder();
-        sb.append(id).append(",")
-                .append(escapeCsv(booking.getCustomer().getName())).append(",")
-                .append(booking.getTable().getId()).append(",")
-                .append(createdAt).append(",")
-                .append((long) total).append(","); // total as integer VND
-        // item ids
-        for (int i = 0; i < items.size(); i++) {
-            sb.append(items.get(i).getId());
-            if (i < items.size() - 1) sb.append("|");
+    public String getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
+    }
+
+    public List<MenuItem> getItems() {
+        return items;
+    }
+
+    public void setItems(List<MenuItem> items) {
+        this.items = items;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    // ============================
+    //  HÀM TÍNH TỔNG TIỀN (nếu cần tính lại)
+    // ============================
+    public double calculateTotal() {
+        double sum = 0;
+        if (items != null) {
+            for (MenuItem m : items) {
+                sum += m.getPrice() * (1 - m.getDiscount());
+            }
         }
-        return sb.toString();
+        this.totalAmount = sum;
+        return sum;
     }
 
-    private String escapeCsv(String s){
-        if (s == null) return "";
-        return s.replace(",", " "); // very simple escape
-    }
-
+    // ============================
+    //  HIỂN THỊ HÓA ĐƠN
+    // ============================
     @Override
-    public String toString(){
-        return String.format("Invoice[%s] for %s | Table: %s | Total: %.0f | At: %s",
-                id, booking.getCustomer().getName(), booking.getTable().getId(), total, createdAt);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n-------------------------------\n");
+        sb.append("HÓA ĐƠN: ").append(id).append("\n");
+        sb.append("ĐẶT BÀN: ").append(bookingId).append("\n");
+        sb.append("MÓN GỌI:\n");
+
+        for (MenuItem item : items) {
+            sb.append(" - ").append(item.getName())
+                    .append(" | Giá: ").append(item.getPrice())
+                    .append(" | Giảm: ").append(item.getDiscount() * 100).append("%\n");
+        }
+
+        sb.append("TỔNG TIỀN: ").append(totalAmount).append(" VND\n");
+        sb.append("-------------------------------\n");
+
+        return sb.toString();
     }
 }

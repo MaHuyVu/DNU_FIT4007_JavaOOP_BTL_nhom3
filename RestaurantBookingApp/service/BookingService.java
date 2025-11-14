@@ -126,7 +126,7 @@ public class BookingService {
         return null;
     }
 
-    private Booking findBookingById(String bookingId) {
+    public Booking findBookingById(String bookingId) {
         for (Booking b : bookings) {
             if (b.getId().equals(bookingId))
                 return b;
@@ -149,5 +149,8 @@ public class BookingService {
     }
 
     public Booking bookTable(String name, String phone, String tableId, String date, String time) {
+    }
+
+    public void saveBookings(String filePath) {
     }
 }
