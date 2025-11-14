@@ -1,66 +1,56 @@
 package util;
 
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
+import model.MenuItem;
+import model.Food;
+import model.Drink;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CsvUtil {
-    private static final String DATA_DIR = "data";
 
-    static {
-        try { Files.createDirectories(Paths.get(DATA_DIR)); }
-        catch (IOException ignored) {}
-    }
+    public static List<MenuItem> readMenu(String filePath) {
+        List<MenuItem> list = new ArrayList<>();
 
-    public static void write(String filename, List<String[]> rows) {
-        String path = Paths.get(DATA_DIR, filename).toString();
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))) {
-            for (String[] row : rows) {
-                bw.write(String.join(",", escape(row)));
-                bw.newLine();
-            }
-        } catch (IOException e) {
-            System.err.println("Lỗi ghi file: " + path);
-            e.printStackTrace();
-        }
-    }
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
-    public static List<String[]> read(String filename) {
-        String path = Paths.get(DATA_DIR, filename).toString();
-        List<String[]> rows = new ArrayList<>();
-        if (!Files.exists(Paths.get(path))) return rows;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             String line;
+            boolean isHeader = true;
+
             while ((line = br.readLine()) != null) {
-                if (!line.trim().isEmpty()) {
-                    rows.add(unescape(line.split(",", -1)));
+
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
                 }
-            }
-        } catch (IOException e) {
-            System.err.println("Lỗi đọc file: " + path);
-        }
-        return rows;
-    }
 
-    private static String[] escape(String[] fields) {
-        for (int i = 0; i < fields.length; i++) {
-            if (fields[i] == null) fields[i] = "";
-            if (fields[i].contains(",") || fields[i].contains("\"") || fields[i].contains("\n")) {
-                fields[i] = "\"" + fields[i].replace("\"", "\"\"") + "\"";
-            }
-        }
-        return fields;
-    }
+                String[] parts = line.split(",");
 
-    private static String[] unescape(String[] fields) {
-        for (int i = 0; i < fields.length; i++) {
-            String f = fields[i];
-            if (f.startsWith("\"") && f.endsWith("\"")) {
-                f = f.substring(1, f.length() - 1).replace("\"\"", "\"");
+                if (parts.length < 5) continue;
+
+                String id = parts[0].trim();
+                String name = parts[1].trim();
+                String type = parts[2].trim().toUpperCase();
+                double price = Double.parseDouble(parts[3].trim());
+                double discount = Double.parseDouble(parts[4].trim());
+
+                MenuItem item;
+
+                if (type.equals("FOOD")) {
+                    item = new Food(id, name, price, discount);
+                } else {
+                    item = new Drink(id, name, price, discount);
+                }
+
+                list.add(item);
             }
-            fields[i] = f.isEmpty() ? null : f;
+
+        } catch (Exception e) {
+            System.out.println("Lỗi đọc menu CSV: " + e.getMessage());
         }
-        return fields;
+
+        return list;
     }
 }

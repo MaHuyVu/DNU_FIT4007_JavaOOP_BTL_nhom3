@@ -1,22 +1,24 @@
 package CLI;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 import model.MenuItem;
 import model.Food;
 import model.Drink;
 import service.MenuService;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class MenuItemCLI {
 
-    private final MenuService menuService = new MenuService();
+    private final MenuService menuService;
     private final Scanner sc = new Scanner(System.in);
 
-    public void run() {
-        menuService.loadMenu();
+    public MenuItemCLI(MenuService menuService) {
+        this.menuService = menuService;
+    }
 
+    public void run() {
         int choice;
         do {
             System.out.println("\n=== QUẢN LÝ MÓN ĂN ===");
@@ -35,21 +37,24 @@ public class MenuItemCLI {
                 case 2 -> addMenuItem();
                 case 3 -> updateMenuItem();
                 case 4 -> deleteMenuItem();
-                case 5 -> searchMenuItem();
+                case 5 -> searchMenuItem();   // đã FIX
                 case 6 -> sortMenuItems();
-                case 0 -> System.out.println("↩ Quay lại MenuManager...");
+                case 0 -> System.out.println("↩ Quay lại menu chính...");
                 default -> System.out.println(" Lựa chọn không hợp lệ!");
             }
         } while (choice != 0);
     }
 
+    // =========================
+    //  TÌM KIẾM MÓN ĂN  (FIX)
+    // =========================
     private void searchMenuItem() {
         System.out.println("\n--- TÌM KIẾM MÓN ĂN ---");
         System.out.println("1. Theo tên");
         System.out.println("2. Theo loại (FOOD / DRINK)");
         System.out.print("Chọn: ");
-        int option = Integer.parseInt(sc.nextLine());
 
+        int option = Integer.parseInt(sc.nextLine());
         List<MenuItem> results = new ArrayList<>();
 
         switch (option) {
@@ -60,11 +65,11 @@ public class MenuItemCLI {
             }
             case 2 -> {
                 System.out.print("Nhập loại (FOOD / DRINK): ");
-                String type = sc.nextLine();
+                String type = sc.nextLine().trim().toUpperCase();
                 results = menuService.searchByType(type);
             }
             default -> {
-                System.out.println("Lựa chọn không hợp lệ!");
+                System.out.println(" Lựa chọn không hợp lệ!");
                 return;
             }
         }
@@ -78,6 +83,9 @@ public class MenuItemCLI {
     }
 
 
+    // =========================
+    //  THÊM MÓN
+    // =========================
     private void addMenuItem() {
         System.out.print("Mã món: ");
         String id = sc.nextLine();
@@ -99,6 +107,9 @@ public class MenuItemCLI {
     }
 
 
+    // =========================
+    //  SỬA MÓN
+    // =========================
     private void updateMenuItem() {
         System.out.print("Nhập mã món cần sửa: ");
         String id = sc.nextLine();
@@ -110,23 +121,29 @@ public class MenuItemCLI {
         double discount = Double.parseDouble(sc.nextLine());
 
         if (menuService.updateMenuItem(id, name, price, discount))
-            System.out.println(" Cập nhật thành công!");
+            System.out.println("✔ Cập nhật thành công!");
         else
             System.out.println(" Không tìm thấy món!");
     }
 
 
+    // =========================
+    //  XÓA MÓN
+    // =========================
     private void deleteMenuItem() {
         System.out.print("Nhập mã món cần xóa: ");
         String id = sc.nextLine();
 
         if (menuService.deleteMenuItem(id))
-            System.out.println(" Đã xóa món!");
+            System.out.println("✔ Đã xóa món!");
         else
             System.out.println(" Không tìm thấy mã món!");
     }
 
 
+    // =========================
+    //  SẮP XẾP MÓN
+    // =========================
     private void sortMenuItems() {
         System.out.println("\n--- SẮP XẾP MÓN ĂN ---");
         System.out.println("1. Theo giá (tăng dần)");
@@ -157,8 +174,5 @@ public class MenuItemCLI {
                     item.getId(), item.getName(), item.getType(),
                     item.getPrice(), item.getDiscount() * 100);
         }
-    }
-
-    public void menu() {
     }
 }

@@ -1,9 +1,16 @@
 package CLI;
 
+import service.InvoiceService;
+import service.MenuService;
+import service.ReportService;
+
 import java.util.Scanner;
 
 public class ReportCLI {
     private final Scanner sc = new Scanner(System.in);
+
+    public ReportCLI(ReportService reportService, InvoiceService invoiceService, MenuService menuService) {
+    }
 
     public void menu() {
         int choice;
