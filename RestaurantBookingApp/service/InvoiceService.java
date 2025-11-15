@@ -27,7 +27,7 @@ public class InvoiceService {
         // cộng phụ phí bàn nếu có
         total += booking.getTable().getSurcharge();
 
-        Invoice invoice = new Invoice(booking, items == null ? new ArrayList<>() : new ArrayList<>(items), total);
+        Invoice invoice = new Invoice(booking, (items == null) ? new String() : String.valueOf(new ArrayList<>(items)), total);
         invoices.add(invoice);
         System.out.println("🧾 Hóa đơn được tạo cho " + booking.getCustomer().getName()
                 + " | Total: " + (long) total + "₫");

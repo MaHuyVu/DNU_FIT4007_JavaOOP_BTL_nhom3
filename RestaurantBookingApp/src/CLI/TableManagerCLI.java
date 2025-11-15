@@ -41,7 +41,7 @@ public class TableManagerCLI {
         System.out.print("Nhập trạng thái (Trống / Đặt trước / Đang phục vụ): ");
         String status = sc.nextLine();
 
-        TableCLI TableCLI = new TableCLI(id, seats, status);
+        TableCLI TableCLI = new TableCLI(id,seats,status);
         TableList.add(TableCLI);
         System.out.println("Thêm bàn ăn thành công!");
     }

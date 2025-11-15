@@ -1,6 +1,10 @@
 package service;
 
 import model.*;
+import Exception.BookingNotFoundException;
+import Exception.InvalidBookingException;
+import Exception.TableAlreadyBookedException;
+import Exception.TableNotFoundException;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -146,9 +150,11 @@ public class BookingService {
     }
 
     public List<Booking> loadBookings() {
+        return new ArrayList<>();
     }
 
     public Booking bookTable(String name, String phone, String tableId, String date, String time) {
+return null ;
     }
 
     public void saveBookings(String filePath) {
