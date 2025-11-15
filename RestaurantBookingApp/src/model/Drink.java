@@ -20,6 +20,11 @@ public class Drink extends MenuItem implements Serializable {
     }
 
     @Override
+    public String getType() {
+        return "";
+    }
+
+    @Override
     public String toString() {
         return String.format("🥤 Đồ uống: %s | Giá: %.0f₫ | Giảm giá: %.0f%% | Size: %s",
                 getName(), getPrice(), getDiscount(), size);

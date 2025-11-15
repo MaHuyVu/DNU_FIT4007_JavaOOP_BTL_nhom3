@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Invoice {
 
@@ -17,6 +18,13 @@ public class Invoice {
         this.bookingId = bookingId;
         this.items = items;
         this.totalAmount = totalAmount;
+    }
+
+    public Invoice(Booking booking, String bookingId, double total) {
+        this.id = "INV-" + System.currentTimeMillis(); // Tự động tạo ID
+        this.bookingId = bookingId;
+        this.items = null; // Hoặc new ArrayList<>()
+        this.totalAmount = total;
     }
 
     // ============================
@@ -79,15 +87,38 @@ public class Invoice {
         sb.append("ĐẶT BÀN: ").append(bookingId).append("\n");
         sb.append("MÓN GỌI:\n");
 
-        for (MenuItem item : items) {
-            sb.append(" - ").append(item.getName())
-                    .append(" | Giá: ").append(item.getPrice())
-                    .append(" | Giảm: ").append(item.getDiscount() * 100).append("%\n");
+        if (items != null && !items.isEmpty()) {
+            for (MenuItem item : items) {
+                sb.append(" - ").append(item.getName())
+                        .append(" | Giá: ").append(item.getPrice())
+                        .append(" | Giảm: ").append(item.getDiscount() * 100).append("%\n");
+            }
+        } else {
+            sb.append(" (Chưa có món)\n");
         }
 
         sb.append("TỔNG TIỀN: ").append(totalAmount).append(" VND\n");
         sb.append("-------------------------------\n");
 
         return sb.toString();
+    }
+
+    // ============================
+    //  CHUYỂN ĐỔI SANG DÒNG CSV
+    // ============================
+    public String toCsvLine() {
+        // Format: id,bookingId,totalAmount,itemIds
+        String itemIds = "";
+        if (items != null && !items.isEmpty()) {
+            itemIds = items.stream()
+                    .map(MenuItem::getId)
+                    .collect(Collectors.joining(";"));
+        }
+
+        return String.format("%s,%s,%.2f,%s",
+                id,
+                bookingId,
+                totalAmount,
+                itemIds);
     }
 }

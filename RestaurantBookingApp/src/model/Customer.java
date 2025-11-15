@@ -3,13 +3,14 @@ package model;
 public class Customer extends Person {
     private int loyaltyPoints;
 
-    public Customer(String phone, String name) {  // ✅ Thêm phone
-        super(phone, name);
+    public Customer(String phone) {
+        super(phone, "");
         this.loyaltyPoints = 0;
     }
 
-    public Customer(String customerId) {
-        super();
+    public Customer(String customerId, String phone, String name) {
+        super(phone, name);
+        this.loyaltyPoints = 0;
     }
 
     public int getLoyaltyPoints() {

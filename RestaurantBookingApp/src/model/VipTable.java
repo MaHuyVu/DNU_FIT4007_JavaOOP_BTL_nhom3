@@ -4,7 +4,7 @@ public class VipTable extends Table {
     private double surcharge;
 
     public VipTable(int number, int capacity, double surcharge) {
-        super(number, capacity);
+        super(Integer.parseInt(number), capacity);
         this.surcharge = surcharge;
     }
 
