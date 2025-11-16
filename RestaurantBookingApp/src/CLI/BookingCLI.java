@@ -1,8 +1,9 @@
 package CLI;
 
 import model.Booking;
-import model.Table;
+import model.Customer;
 import service.BookingService;
+import service.TableService;
 
 import java.util.List;
 import java.util.Scanner;
@@ -11,8 +12,18 @@ public class BookingCLI {
 
     private final Scanner sc = new Scanner(System.in);
 
-    public void menu() {
+    private final TableService tableService;
+    private final BookingService bookingService;
 
+    private final String FILE_PATH = "data/bookings.csv";
+
+    public BookingCLI(TableService tableService) {
+        this.tableService = tableService;
+
+        this.bookingService = new BookingService(tableService.getTables());
+    }
+
+    public void menu() {
 
         bookingService.loadBookings(FILE_PATH);
 
@@ -36,7 +47,15 @@ public class BookingCLI {
         } while (choice != 0);
     }
 
-
+    private int readInt() {
+        while (true) {
+            try {
+                return Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.print(" Nhập số hợp lệ: ");
+            }
+        }
+    }
 
     private void createBooking() {
         System.out.println("\n[Tạo đặt bàn mới]");
@@ -57,10 +76,11 @@ public class BookingCLI {
         String time = sc.nextLine();
 
         try {
-            Booking booking = bookingService.bookTable(name, phone, tableId, date, time);
-            System.out.println("✔ Đặt bàn thành công!");
-            System.out.println(booking);
+            Customer customer = new Customer(name, phone);
 
+            Booking booking = bookingService.bookTable(customer, tableId, date, time);
+            System.out.println(" Đặt bàn thành công!");
+            System.out.println(booking);
 
             bookingService.saveBookings(FILE_PATH);
 
@@ -69,16 +89,14 @@ public class BookingCLI {
         }
     }
 
-
     private void cancelBooking() {
         System.out.println("\n[Hủy đặt bàn]");
-        System.out.print("Nhập mã đặt bàn cần hủy: ");
+        System.out.print("Nhập mã đặt bàn: ");
         String bookingId = sc.nextLine();
 
         try {
             bookingService.cancelBooking(bookingId);
-            System.out.println("✔ Đã hủy đặt bàn thành công!");
-
+            System.out.println(" Đã hủy đặt bàn thành công!");
 
             bookingService.saveBookings(FILE_PATH);
 
@@ -87,14 +105,12 @@ public class BookingCLI {
         }
     }
 
-
-
     private void listBookings() {
-        System.out.println("\n DANH SÁCH ĐẶT BÀN:");
+        System.out.println("\n=== DANH SÁCH ĐẶT BÀN ===");
         List<Booking> bookings = bookingService.getBookings();
 
         if (bookings.isEmpty()) {
-            System.out.println("Không có dữ liệu đặt bàn!");
+            System.out.println(" Không có dữ liệu đặt bàn!");
         } else {
             bookings.forEach(System.out::println);
         }

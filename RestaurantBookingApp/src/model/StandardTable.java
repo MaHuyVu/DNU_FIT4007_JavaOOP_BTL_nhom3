@@ -3,7 +3,7 @@ package model;
 public class StandardTable extends Table {
 
     public StandardTable(int i, int seats) {
-        super("STANDARD", seats, 0); // bàn thường không có phụ phí
+        super(p[0], "STANDARD", seats, 0); // bàn thường không có phụ phí
     }
 
     @Override

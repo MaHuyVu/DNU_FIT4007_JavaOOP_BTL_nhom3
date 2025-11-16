@@ -9,8 +9,17 @@ public class Table implements Serializable {
     protected int seats;
     protected double surcharge;
 
-    public Table(String type, int seats, double surcharge) {
+    // Constructor tạo bàn mới (id tự động)
+    public Table(String id, String type, int seats, double surcharge) {
         this.id = UUID.randomUUID().toString();
+        this.type = type;
+        this.seats = seats;
+        this.surcharge = surcharge;
+    }
+
+    // Constructor load từ CSV
+    public Table(String id, String type, int seats, String surcharge) {
+        this.id = id;
         this.type = type;
         this.seats = seats;
         this.surcharge = surcharge;
@@ -44,8 +53,10 @@ public class Table implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Table[%s] Type: %s, Seats: %d, Surcharge: %.0f₫",
-                id, type, seats, surcharge);
+        return String.format(
+                "Table[%s] Type: %s, Seats: %d, Surcharge: %.0f₫",
+                id, type, seats, surcharge
+        );
     }
 
     @Override
@@ -55,6 +66,7 @@ public class Table implements Serializable {
         Table table = (Table) obj;
         return id.equals(table.id);
     }
+
     @Override
     public int hashCode() {
         return id.hashCode();
