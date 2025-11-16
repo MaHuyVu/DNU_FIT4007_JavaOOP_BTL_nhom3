@@ -3,18 +3,14 @@ package model;
 public class Customer extends Person {
     private int loyaltyPoints;
 
-<<<<<<< HEAD
-    public Customer(String name, String phone) {
-        super(name, phone);
-=======
-    public Customer(String phone, String name) {  // ✅ Thêm phone
-        super(phone, name);
->>>>>>> b30100cf7b1ff0ffd06260066a1e2d23aa035ff6
+    public Customer(String phone, String s, String string, boolean b) {
+        super(phone, "");
         this.loyaltyPoints = 0;
     }
 
-    public Customer(String customerId) {
-        super();
+    public Customer(String customerId, String phone, String name) {
+        super(phone, name);
+        this.loyaltyPoints = 0;
     }
 
     public int getLoyaltyPoints() {
@@ -26,5 +22,13 @@ public class Customer extends Person {
     @Override
     public String toString() {
         return super.toString() + " | Points: " + loyaltyPoints;
+    }
+
+    public abstract setId(String generate) ;
+
+    public String getEmail() {
+    }
+
+    public char[] isVip() {
     }
 }

@@ -14,7 +14,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         TableService tableService = new TableService();
 
-        // 🔹 Load danh sách bàn từ CSV
         List<Table> tables = tableService.loadTables("data/tables.csv");
 
         BookingCLI bookingCLI = new BookingCLI(tables);
