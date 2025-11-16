@@ -54,4 +54,7 @@ public abstract class MenuItem {
         double discountAmount = price * discount / 100;
         return price - discountAmount;
     }
+
+    public void setId(String generate) {
+    }
 }

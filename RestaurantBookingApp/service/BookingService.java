@@ -2,7 +2,6 @@ package service;
 
 import model.*;
 import Exception.BookingNotFoundException;
-import Exception.InvalidBookingException;
 import Exception.TableAlreadyBookedException;
 import Exception.TableNotFoundException;
 
@@ -61,7 +60,7 @@ public class BookingService {
                 }
 
                 // tạo customer tạm (vì bạn chỉ có id)
-                Customer customer = new Customer(customerId);
+                Customer customer = new Customer(customerId, r[2], r[3], Boolean.parseBoolean(r[4]));
 
 
                 Booking booking = new Booking(id, customer, table, date, time, guests, status);

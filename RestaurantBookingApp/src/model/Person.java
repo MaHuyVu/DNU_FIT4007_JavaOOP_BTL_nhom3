@@ -23,4 +23,13 @@ public abstract class Person implements Serializable {
     public String toString() {
         return "Name: " + name + " | Phone: " + phone;
     }
+
+    public abstract void setId(String generate);
+
+    public abstract Object getId();
+
+    public abstract String getEmail() ;
+
+
+    public abstract char[] isVip() ;
 }

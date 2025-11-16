@@ -40,7 +40,7 @@ public class MenuManagerCLI {
 
         tableCLI = new TableCLI(tableService);
         menuItemCLI = new MenuItemCLI(menuService);
-        bookingCLI = new BookingCLI((TableService) BookingService);
+        bookingCLI = new BookingCLI(BookingService);
         invoiceCLI = new InvoiceCLI(invoiceService, bookingService, menuService);
         reportCLI = new ReportCLI(reportService, invoiceService, menuService);
 
