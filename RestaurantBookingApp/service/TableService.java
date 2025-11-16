@@ -1,49 +1,154 @@
 package service;
 
 import model.Table;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
+import util.CsvUtil;
 import java.util.ArrayList;
 import java.util.List;
+import model.StandardTable;
 
 public class TableService {
 
     private List<Table> tables = new ArrayList<>();
 
-    public List<Table> getTables() {
-        return tables;
-    }
-
     public List<Table> loadTables(String filePath) {
-        tables = new ArrayList<>();
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                String[] p = line.split(",");
-
-                if (p.length < 4) continue;
-
-                Table table = new Table(
-                        p[0],                 // id
-                        p[1],                 // type
-                        Integer.parseInt(p[2]), // seats
-                        Double.parseDouble(p[3]) // surcharge
-                );
-
-                tables.add(table);
-            }
-
+        try {
+            this.tables = CsvUtil.readTables(filePath);
+            System.out.println("✔ Tải " + tables.size() + " bàn thành công.");
+            return tables;
         } catch (Exception e) {
-            System.out.println("Lỗi khi load danh sách bàn: " + e.getMessage());
+            System.out.println("❌ Lỗi khi tải danh sách bàn: " + e.getMessage());
+            return new ArrayList<>();
         }
-
-        return tables;
     }
 
     public void showTables() {
+        System.out.println("\n========= DANH SÁCH BÀN =========");
+        if (tables.isEmpty()) {
+            System.out.println("Không có bàn nào!");
+            return;
+        }
+        for (Table table : tables) {
+            System.out.println(table);
+        }
+    }
+
+    public List<Table> getAllTables() {
+        return tables;
+    }
+
+    public Table findTableById(String tableId) {
+        for (Table table : tables) {
+            if (table.getId().equals(tableId)) {
+                return table;
+            }
+        }
+        return null;
+    }
+
+    public void addTable(String id, int seats) {
+        if (findTableById(id) != null) {
+            System.out.println("❌ Bàn với ID " + id + " đã tồn tại!");
+            return;
+        }
+
+        // Tạo bàn thường (StandardTable) mặc định
+        Table table = new StandardTable(id, seats);
+        tables.add(table);
+        System.out.println("✔ Thêm bàn " + id + " thành công!");
+    }
+
+    // ============================
+    //  ADD TABLE - Nhận object Table
+    // ============================
+    public void addTable(Table table) {
+        if (findTableById(table.getId()) != null) {
+            System.out.println("❌ Bàn với ID " + table.getId() + " đã tồn tại!");
+            return;
+        }
+        tables.add(table);
+        System.out.println("✔ Thêm bàn " + table.getId() + " thành công!");
+    }
+
+    // ============================
+    //  UPDATE TABLE - Nhận String id và int seats
+    // ============================
+    public void updateTable(String id, int seats) {
+        Table table = findTableById(id);
+        if (table == null) {
+            System.out.println("❌ Không tìm thấy bàn với ID: " + id);
+            return;
+        }
+
+        table.setSeats(seats);
+        System.out.println("✔ Cập nhật bàn " + id + " thành công!");
+    }
+
+    // ============================
+    //  UPDATE TABLE - Đầy đủ tham số
+    // ============================
+    public boolean updateTable(String tableId, int newSeats, double newSurcharge) {
+        Table table = findTableById(tableId);
+        if (table == null) {
+            System.out.println("❌ Không tìm thấy bàn với ID: " + tableId);
+            return false;
+        }
+
+        table.setSeats(newSeats);
+        table.setSurcharge(newSurcharge);
+        System.out.println("✔ Cập nhật bàn " + tableId + " thành công!");
+        return true;
+    }
+
+    // Overload: Cập nhật với status
+    public boolean updateTable(String tableId, int newSeats, double newSurcharge, String status) {
+        Table table = findTableById(tableId);
+        if (table == null) {
+            System.out.println("❌ Không tìm thấy bàn với ID: " + tableId);
+            return false;
+        }
+
+        table.setSeats(newSeats);
+        table.setSurcharge(newSurcharge);
+        table.setStatus(status);
+        System.out.println("✔ Cập nhật bàn " + tableId + " thành công!");
+        return true;
+    }
+
+    // ============================
+    //  DELETE TABLE - Trả về boolean
+    // ============================
+    public boolean deleteTable(String id) {
+        Table table = findTableById(id);
+        if (table == null) {
+            System.out.println("❌ Không tìm thấy bàn với ID: " + id);
+            return false;
+        }
+
+        tables.remove(table);
+        System.out.println("✔ Đã xóa bàn " + id + " thành công!");
+        return true;
+    }
+
+    // Cách khác: dùng removeIf (ngắn gọn hơn)
+    public boolean deleteTableAlt(String tableId) {
+        boolean removed = tables.removeIf(t -> t.getId().equals(tableId));
+        if (removed) {
+            System.out.println("✔ Đã xóa bàn " + tableId + " thành công!");
+        } else {
+            System.out.println("❌ Không tìm thấy bàn với ID: " + tableId);
+        }
+        return removed;
+    }
+
+    // ============================
+    //  SAVE TABLES TO FILE
+    // ============================
+    public void saveTables(String filePath) {
+        try {
+            CsvUtil.writeTables(filePath, tables);
+            System.out.println("✔ Lưu danh sách bàn thành công!");
+        } catch (Exception e) {
+            System.out.println("❌ Lỗi khi lưu danh sách bàn: " + e.getMessage());
+        }
     }
 }
-

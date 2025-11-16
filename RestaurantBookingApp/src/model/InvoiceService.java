@@ -1,11 +1,8 @@
-package service;
-
-import model.Booking;
-import model.Invoice;
-import model.MenuItem;
+package model;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class InvoiceService {
         // cộng phụ phí bàn nếu có
         total += booking.getTable().getSurcharge();
 
-        Invoice invoice = new Invoice(booking, (items == null) ? new String() : String.valueOf(new ArrayList<>(items)), total);
+        Invoice invoice = new Invoice(booking, items == null ? new String() : String.valueOf(new ArrayList<>(items)), total);
         invoices.add(invoice);
         System.out.println("🧾 Hóa đơn được tạo cho " + booking.getCustomer().getName()
                 + " | Total: " + (long) total + "₫");
@@ -52,14 +49,5 @@ public class InvoiceService {
 
     public List<Invoice> getInvoices() {
         return invoices;
-    }
-
-    public void addInvoice(Invoice invoice) {
-    }
-
-    public void saveInvoices(String invoiceFile) {
-    }
-
-    public void loadInvoices(String s) {
     }
 }

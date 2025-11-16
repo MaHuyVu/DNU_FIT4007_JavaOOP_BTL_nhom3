@@ -144,39 +144,5 @@ public class MenuService {
             }
         }
         return result;
-
-    }
-
-    public void loadMenu() {
- 
-    }
-
-    public List<MenuItem> sortByPrice(boolean b) {
-   
-        List<MenuItem> sortedList = new ArrayList<>(this.menuItems); 
-
-      
-        if (b) {
-            sortedList.sort(Comparator.comparingDouble(MenuItem::getPrice)); 
-        } else {
-            sortedList.sort(Comparator.comparingDouble(MenuItem::getPrice).reversed()); 
-        }
-
-        return sortedList;
-    }
-
-    public List<MenuItem> sortByDiscount(boolean b) {
-        List<MenuItem> sortedList = new ArrayList<>(this.menuItems);
-
-        if (b) {
-            sortedList.sort(Comparator.comparingDouble(MenuItem::getDiscount));
-        } else {
-            sortedList.sort(Comparator.comparingDouble(MenuItem::getDiscount).reversed());
-        }
-
-        return sortedList;
-    }
-
-    public void showMenu() {
     }
 }

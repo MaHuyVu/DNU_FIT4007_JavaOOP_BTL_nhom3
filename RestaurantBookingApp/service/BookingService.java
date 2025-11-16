@@ -1,8 +1,13 @@
 package service;
 
 import model.*;
+import Exception.BookingNotFoundException;
+import Exception.InvalidBookingException;
+import Exception.TableAlreadyBookedException;
+import Exception.TableNotFoundException;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +20,7 @@ public class BookingService {
         this.bookings = new ArrayList<>();
     }
 
-    // ---------------------------
-    // ĐẶT BÀN CHÍNH
-    // ---------------------------
+
     public Booking bookTable(Customer customer, String tableId, String date, String time)
             throws TableAlreadyBookedException, TableNotFoundException {
 
@@ -26,64 +29,18 @@ public class BookingService {
             throw new TableNotFoundException("Không tìm thấy bàn có ID: " + tableId);
 
         if (isTableBooked(tableId, date, time))
-            throw new TableAlreadyBookedException("Bàn này đã được đặt vào " + date + " lúc " + time);
+            throw new TableAlreadyBookedException(" Bàn này đã được đặt vào " + date + " lúc " + time);
 
         Booking booking = new Booking(customer, table, date, time);
         bookings.add(booking);
-
+        System.out.println(" Đặt bàn thành công cho " + customer.getName());
         return booking;
     }
-
-    // ---------------------------
-    // ĐẶT BÀN DẠNG INPUT CƠ BẢN
-    // ---------------------------
-    public Booking bookTable(String name, String phone, String tableId, String date, String time) {
-        Customer customer = new Customer(name, phone);
-        Table table = findTableById(tableId);
-
-        if (table == null)
-            throw new RuntimeException("Không tìm thấy bàn!");
-
-        Booking booking = new Booking(customer, table, date, time);
-        bookings.add(booking);
-
-        return booking;
-    }
-
-    // ---------------------------
-    // LƯU BOOKING XUỐNG FILE CSV
-    // ---------------------------
-    public void saveBookings(String filePath) {
-
-        try (PrintWriter pw = new PrintWriter(new FileWriter(filePath))) {
-
-            pw.println("id,customerId,tableId,date,time,guests,status");
-
-            for (Booking b : bookings) {
-                pw.println(b.getId() + "," +
-                        b.getCustomer().getId() + "," +
-                        b.getTable().getId() + "," +
-                        b.getDate() + "," +
-                        b.getTime() + "," +
-                        b.getGuests() + "," +
-                        b.getStatus());
-            }
-
-            System.out.println("✔ Đã lưu booking xuống file.");
-
-        } catch (Exception e) {
-            System.out.println("❌ Lỗi lưu file: " + e.getMessage());
-        }
-    }
-
-    // ---------------------------
-    // LOAD BOOKING TỪ FILE CSV
-    // ---------------------------
     public List<Booking> loadBookings(String filePath) {
         bookings.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
 
-            String line = br.readLine(); // bỏ header
+            String line = br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data.length < 7) continue;
@@ -96,43 +53,41 @@ public class BookingService {
                 int guests = Integer.parseInt(data[5].trim());
                 String status = data[6].trim();
 
+
                 Table table = findTableById(tableId);
                 if (table == null) {
-                    System.out.println("⚠ Không tìm thấy bàn " + tableId + ", bỏ qua booking " + id);
+                    System.out.println("⚠ Bỏ qua booking " + id + " (không tìm thấy bàn " + tableId + ")");
                     continue;
                 }
 
-                // tạo customer tạm (vì file chỉ có id)
+                // tạo customer tạm (vì bạn chỉ có id)
                 Customer customer = new Customer(customerId);
 
+
                 Booking booking = new Booking(id, customer, table, date, time, guests, status);
+
                 bookings.add(booking);
             }
 
-            System.out.println("✔ Load " + bookings.size() + " booking từ file.");
-
+            System.out.println(" Load " + bookings.size() + " booking từ file.");
         } catch (Exception e) {
-            System.out.println("❌ Lỗi load file: " + e.getMessage());
+            System.out.println(" Lỗi load booking: " + e.getMessage());
         }
 
         return bookings;
     }
 
-    // phiên bản loadBookings() không tham số
-    public List<Booking> loadBookings() {
-        return bookings;
-    }
 
-    // ---------------------------
-    // HỦY – XÁC NHẬN – HOÀN TẤT
-    // ---------------------------
+
     public void cancelBooking(String bookingId) throws BookingNotFoundException {
         Booking booking = findBookingById(bookingId);
         if (booking == null)
             throw new BookingNotFoundException("Không tìm thấy mã đặt bàn: " + bookingId);
 
         booking.setStatus("Cancelled");
+        System.out.println(" Hủy đặt bàn thành công cho khách " + booking.getCustomer().getName());
     }
+
 
     public void confirmBooking(String bookingId) throws BookingNotFoundException {
         Booking booking = findBookingById(bookingId);
@@ -140,7 +95,9 @@ public class BookingService {
             throw new BookingNotFoundException("Không tìm thấy mã đặt bàn: " + bookingId);
 
         booking.setStatus("Confirmed");
+        System.out.println(" Xác nhận đặt bàn cho " + booking.getCustomer().getName());
     }
+
 
     public void completeBooking(String bookingId) throws BookingNotFoundException {
         Booking booking = findBookingById(bookingId);
@@ -148,25 +105,9 @@ public class BookingService {
             throw new BookingNotFoundException("Không tìm thấy mã đặt bàn: " + bookingId);
 
         booking.setStatus("Completed");
+        System.out.println(" Bàn của " + booking.getCustomer().getName() + " đã hoàn tất!");
     }
 
-    // ---------------------------
-    // HÀM TÌM KIẾM
-    // ---------------------------
-
-    private Table findTableById(String tableId) {
-        for (Table t : tables)
-            if (t.getId().equals(tableId))
-                return t;
-        return null;
-    }
-
-    public Booking findBookingById(String bookingId) {
-        for (Booking b : bookings)
-            if (b.getId().equals(bookingId))
-                return b;
-        return null;
-    }
 
     private boolean isTableBooked(String tableId, String date, String time) {
         for (Booking b : bookings) {
@@ -180,7 +121,42 @@ public class BookingService {
         return false;
     }
 
+
+    private Table findTableById(String tableId) {
+        for (Table t : tables) {
+            if (t.getId().equals(tableId))
+                return t;
+        }
+        return null;
+    }
+
+    public Booking findBookingById(String bookingId) {
+        for (Booking b : bookings) {
+            if (b.getId().equals(bookingId))
+                return b;
+        }
+        return null;
+    }
+
     public List<Booking> getBookings() {
         return bookings;
+    }
+
+    public void listAllBookings() {
+        System.out.println("=== DANH SÁCH ĐẶT BÀN ===");
+        for (Booking b : bookings) {
+            System.out.println(b);
+        }
+    }
+
+    public List<Booking> loadBookings() {
+        return new ArrayList<>();
+    }
+
+    public Booking bookTable(String name, String phone, String tableId, String date, String time) {
+return null ;
+    }
+
+    public void saveBookings(String filePath) {
     }
 }

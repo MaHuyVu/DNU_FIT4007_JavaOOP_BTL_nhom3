@@ -7,7 +7,7 @@ public abstract class MenuItem {
     protected double price;
     protected double discount;
 
-    public MenuItem(String id, String name, double price, double discount) {
+    public MenuItem(String id, double price, double discount) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -48,5 +48,10 @@ public abstract class MenuItem {
     @Override
     public String toString() {
         return id + " | " + name + " | " + getType() + " | " + price + " | discount: " + discount;
+    }
+
+    public double getDiscountedPrice() {
+        double discountAmount = price * discount / 100;
+        return price - discountAmount;
     }
 }
