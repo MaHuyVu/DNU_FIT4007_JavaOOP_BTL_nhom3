@@ -15,11 +15,11 @@ public class Table implements Serializable {
     // ============================
     //  CONSTRUCTORS
     // ============================
-    public Table(int seats, double surcharge) {
+    public Table(String seats, double surcharge) {
         this.id = UUID.randomUUID().toString();
-        this.seats = seats;
+        this.seats = Integer.parseInt(seats);
         this.surcharge = surcharge;
-        this.capacity = seats;  // Mặc định capacity = seats
+        this.capacity = Integer.parseInt(seats);  // Mặc định capacity = seats
     }
 
     public Table(String id, int seats, double surcharge) {
@@ -35,6 +35,14 @@ public class Table implements Serializable {
         this.seats = seats;
         this.surcharge = surcharge;
         this.capacity = seats;
+    }
+
+    public Table(int number, int capacity) {
+        this.id = UUID.randomUUID().toString();
+        this.number = number;
+        this.capacity = capacity;
+        this.seats = capacity;
+        this.surcharge = 0.0;
     }
 
     // ============================

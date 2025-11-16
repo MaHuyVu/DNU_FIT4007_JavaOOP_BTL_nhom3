@@ -93,9 +93,8 @@ public class CsvTableRepository implements Repository<Table, String> {
             double surcharge = Double.parseDouble(r[5]);
 
             Table table = "VIP".equals(type)
-                    ? new VipTable(number, capacity, surcharge)
-                    : new StandardTable(number, capacity);
-
+                    ? new VipTable(String.valueOf(number), capacity, surcharge)
+                    : new StandardTable(String.valueOf(number), capacity);
             table.setId(id);
             table.setStatus(status);
             tables.add(table);
