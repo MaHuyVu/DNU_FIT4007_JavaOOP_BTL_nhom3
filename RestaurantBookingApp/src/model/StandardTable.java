@@ -2,7 +2,7 @@ package model;
 
 public class StandardTable extends Table {
 
-    public StandardTable(int i, int seats) {
+    public StandardTable(String i, int seats) {
         super(seats, 0);  // ✅ Sửa: truyền đúng tham số
     }
 

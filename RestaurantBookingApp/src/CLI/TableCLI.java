@@ -52,7 +52,6 @@ public class TableCLI {
             return -1;
         }
     }
-
     private void addTable() {
         System.out.println("\n[Thêm bàn mới]");
 
@@ -81,7 +80,6 @@ public class TableCLI {
             System.out.println("❌ Lỗi: " + e.getMessage());
         }
     }
-
     private void updateTable() {
         System.out.println("\n[Cập nhật bàn]");
 
@@ -99,7 +97,6 @@ public class TableCLI {
             System.out.println("❌ Không tìm thấy bàn với ID: " + id);
         }
     }
-
     private void deleteTable() {
         System.out.println("\n[Xóa bàn]");
 
@@ -118,7 +115,6 @@ public class TableCLI {
             System.out.println("❌ Đã hủy thao tác xóa.");
         }
     }
-
     public void setSeatCount(int newSeats) {
     }
 
