@@ -1,5 +1,7 @@
 package model;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -10,14 +12,18 @@ public class Invoice {
     private String bookingId;             // Mã đặt bàn
     private List<MenuItem> items;         // Danh sách món đã gọi
     private double totalAmount;           // Tổng tiền
+    private char[] total;
+    private char[] discount;
+    private char[] finalAmount;
+    private LocalDate invoiceDate;        // Đổi từ char[] sang LocalDate
 
     // ============================
     //  CONSTRUCTOR
     // ============================
-    public Invoice(String id, String bookingId, List<MenuItem> items, double totalAmount) {
+    public Invoice(String id, Map<String, Integer> bookingId, List<MenuItem> items, double totalAmount) {
         this.id = id;
-        this.bookingId = bookingId;
-        this.items = items;
+        this.bookingId = bookingId.toString();
+        this.items = items;  // Sửa: items giờ là List<MenuItem>
         this.totalAmount = totalAmount;
     }
 
@@ -25,6 +31,13 @@ public class Invoice {
         this.id = "INV-" + System.currentTimeMillis(); // Tự động tạo ID
         this.bookingId = bookingId;
         this.items = null; // Hoặc new ArrayList<>()
+        this.totalAmount = total;
+    }
+
+    public Invoice(String invoiceId, String bookingId, List<MenuItem> orderedItems, double total) {
+        this.id = invoiceId;
+        this.bookingId = bookingId;
+        this.items = orderedItems;
         this.totalAmount = total;
     }
 
@@ -123,5 +136,33 @@ public class Invoice {
                 itemIds);
     }
 
+    public Map<Object, Object> getOrderItems() {
+        Map<Object, Object> orderItems = new HashMap<>();
+        if (items != null) {
+            for (MenuItem item : items) {
+                orderItems.put(item.getId(), item);
+            }
+        }
+        return orderItems;
+    }
 
+    public char[] getTotal() {
+        return total;
+    }
+
+    public char[] getDiscount() {
+        return discount;
+    }
+
+    public char[] getFinalAmount() {
+        return finalAmount;
+    }
+
+    public LocalDate getInvoiceDate() {
+        return invoiceDate;
+    }
+
+    public void setInvoiceDate(LocalDate invoiceDate) {
+        this.invoiceDate = invoiceDate;
+    }
 }

@@ -10,6 +10,10 @@ public class Drink extends MenuItem implements Serializable {
         super(name, Double.parseDouble(price), discount);
     }
 
+    public Drink(String name, double v, double discount) {
+        super(name ,v , discount);
+    }
+
     // Getter & Setter
     public String getSize() {
         return size;

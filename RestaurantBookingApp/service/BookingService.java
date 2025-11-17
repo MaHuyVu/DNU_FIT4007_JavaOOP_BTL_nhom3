@@ -13,6 +13,7 @@ import java.util.List;
 public class BookingService {
     private final List<Table> tables;
     private final List<Booking> bookings;
+    private String[] r;
 
     public BookingService(List<Table> tables) {
         this.tables = tables;
@@ -149,7 +150,7 @@ public class BookingService {
     }
 
     public List<Booking> loadBookings() {
-        return new ArrayList<>();
+        return new ArrayList<>();  // ❌ Chỉ trả về list rỗng, không đọc file
     }
 
     public Booking bookTable(String name, String phone, String tableId, String date, String time) {

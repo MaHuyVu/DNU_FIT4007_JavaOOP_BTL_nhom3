@@ -66,7 +66,7 @@ public class CsvInvoiceRepository implements Repository<Invoice, String> {
                     if (kv.length == 2) items.put(kv[0], Integer.parseInt(kv[1]));
                 }
             }
-            Invoice inv = new Invoice(r[1], items, Double.parseDouble(r[3]), Double.parseDouble(r[4]));
+            Invoice inv = new Invoice(r[1], r[0], new ArrayList<>(), Double.parseDouble(r[3]));
             inv.setId(r[0]);
             inv.setInvoiceDate(LocalDate.parse(r[6]));
             invoices.add(inv);

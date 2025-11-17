@@ -10,6 +10,10 @@ public class Food extends MenuItem implements Serializable {
         super(name, Double.parseDouble(price), discount);
     }
 
+    public Food(String name, double v, double discount) {
+        super(name , v , discount);
+    }
+
     @Override
     public String getType() {
         return "";
