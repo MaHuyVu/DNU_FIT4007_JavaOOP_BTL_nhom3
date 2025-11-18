@@ -1,24 +1,25 @@
 id,name,type,price,discount
-m001,Phở bò tái nạm,FOOD,85000,0.1
-m002,Phở gà,FOOD,75000,0.1
-m003,Bún bò Huế,FOOD,70000,0
-m004,Cơm tấm sườn nướng,FOOD,65000,0
-m005,Bánh mì thịt nướng,FOOD,35000,0
-m006,Cơm chiên dương châu,FOOD,60000,0
-m007,Hamburger bò,FOOD,85000,0.05
-m008,Salad gà nướng,FOOD,55000,0.15
-m009,Pizza hải sản,FOOD,150000,0.1
-m010,Spaghetti carbonara,FOOD,95000,0
-m011,Mì Ý bò bằm,FOOD,80000,0
-m012,Gỏi cuốn tôm thịt,FOOD,45000,0.2
-m013,Bánh xèo,FOOD,50000,0
-m014,Cá kho tộ,FOOD,90000,0
-m015,Cơm thêm, FOOD, 15000, 0
-d001,Trà đá,DRINK,10000,0
-d002,Cà phê sữa đá,DRINK,25000,0
-d003,Nước cam ép,DRINK,35000,0.1
-d004,Sinh tố dâu,DRINK,40000,0.1
-d005,Coca Cola,DRINK,20000,0
-d006,Trà sữa trân châu,DRINK,35000,0.05
-d007,Nước suối,DRINK,15000,0
-d008,Bia Tiger,DRINK,30000,0
+m001,Phở bò tái nạm,FOOD,85000.0,0.1
+m002,Phở gà,FOOD,75000.0,0.1
+m003,Bún bò Huế,FOOD,70000.0,0.0
+m004,,FOOD,8000000.0,10.0
+m005,Bánh mì thịt nướng,FOOD,35000.0,0.0
+m006,Cơm chiên dương châu,FOOD,60000.0,0.0
+m007,Hamburger bò,FOOD,85000.0,0.05
+m008,Salad gà nướng,FOOD,55000.0,0.15
+m009,Pizza hải sản,FOOD,150000.0,0.1
+m010,Spaghetti carbonara,FOOD,95000.0,0.0
+m011,Mì Ý bò bằm,FOOD,80000.0,0.0
+m012,Gỏi cuốn tôm thịt,FOOD,45000.0,0.2
+m013,Bánh xèo,FOOD,50000.0,0.0
+m014,Cá kho tộ,FOOD,90000.0,0.0
+m015,Cơm thêm,FOOD,15000.0,0.0
+d001,Trà đá,DRINK,10000.0,0.0
+d002,Cà phê sữa đá,DRINK,25000.0,0.0
+d003,Nước cam ép,DRINK,35000.0,0.1
+d004,Sinh tố dâu,DRINK,40000.0,0.1
+d005,Coca Cola,DRINK,20000.0,0.0
+d006,Trà sữa trân châu,DRINK,35000.0,0.05
+d007,Nước suối,DRINK,15000.0,0.0
+d008,Bia Tiger,DRINK,30000.0,0.0
+3cd6a43f-4f1c-4fcf-ac35-941f13e454c7,Bún bò hhuees,FOOD,70000.0,0.1
