@@ -1,15 +1,15 @@
 package service;
-import java.util.Comparator;
 
+import java.util.Comparator;
 import model.MenuItem;
 import util.CsvUtil;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuService {
 
     private List<MenuItem> menuItems = new ArrayList<>();
+    private static final String FILE_PATH = "data/menu.csv";
 
     public void loadMenu(String filePath) {
         try {
@@ -33,11 +33,9 @@ public class MenuService {
         }
     }
 
-
     public void addMenuItem(MenuItem item) {
         menuItems.add(item);
     }
-
 
     public boolean updateMenuItem(String id, String name, double price, double discount) {
         for (MenuItem m : menuItems) {
@@ -55,7 +53,6 @@ public class MenuService {
         return menuItems.removeIf(m -> m.getId().equals(id));
     }
 
-
     public List<MenuItem> sortByPrice(boolean ascending) {
         List<MenuItem> sorted = new ArrayList<>(menuItems);
 
@@ -66,7 +63,6 @@ public class MenuService {
 
         return sorted;
     }
-
 
     public List<MenuItem> sortByDiscount(boolean ascending) {
         List<MenuItem> sorted = new ArrayList<>(menuItems);
@@ -79,7 +75,6 @@ public class MenuService {
         return sorted;
     }
 
-
     public MenuItem findById(String itemId) {
         for (MenuItem m : menuItems) {
             if (m.getId().equals(itemId)) {
@@ -89,11 +84,9 @@ public class MenuService {
         return null;
     }
 
-
     public List<MenuItem> getAll() {
         return menuItems;
     }
-
 
     public List<MenuItem> searchByPriceRange(double min, double max) {
         List<MenuItem> result = new ArrayList<>();
@@ -144,5 +137,29 @@ public class MenuService {
             }
         }
         return result;
+    }
+
+    // ============================
+    //  THÊM METHOD SAVE MENU (MỚI)
+    // ============================
+    public void saveMenu() {
+        try {
+            List<String[]> data = new ArrayList<>();
+            data.add(new String[]{"id", "name", "type", "price", "discount"});  // Header
+            for (MenuItem item : menuItems) {
+                String type = item instanceof model.Food ? "FOOD" : "DRINK";  // Xác định type
+                data.add(new String[]{
+                        item.getId(),
+                        item.getName(),
+                        type,
+                        String.valueOf(item.getPrice()),
+                        String.valueOf(item.getDiscount())
+                });
+            }
+            CsvUtil.write(FILE_PATH, data);  // Ghi ra file
+            System.out.println("✔ Đã lưu menu thành công!");
+        } catch (Exception e) {
+            System.out.println("❌ Lỗi khi lưu menu: " + e.getMessage());
+        }
     }
 }

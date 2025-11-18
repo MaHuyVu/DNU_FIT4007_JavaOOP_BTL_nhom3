@@ -1,41 +1,16 @@
 package app;
 
-import CLI.BookingCLI;
-import service.TableService;
-import model.Table;
-
-import java.util.List;
-import java.util.Scanner;
+import CLI.MenuManagerCLI;
 
 public class Main {
 
     public static void main(String[] args) {
+        // Khởi tạo MenuManagerCLI để quản lý toàn bộ hệ thống
+        MenuManagerCLI menuManager = new MenuManagerCLI();
 
-        Scanner sc = new Scanner(System.in);
-        TableService tableService = new TableService();
+        // Chạy menu chính (bao gồm load dữ liệu và các submenu)
+        menuManager.run();
 
-        List<Table> tables = tableService.loadTables("data/tables.csv");
-
-        BookingCLI bookingCLI = new BookingCLI(tables);
-
-        int choice;
-        do {
-            System.out.println("\n===== HỆ THỐNG QUẢN LÝ NHÀ HÀNG =====");
-            System.out.println("1. Quản lý đặt bàn");
-            System.out.println("0. Thoát");
-            System.out.print("Chọn: ");
-            try {
-                choice = Integer.parseInt(sc.nextLine());
-            } catch (Exception e) {
-                choice = -1;
-            }
-
-            switch (choice) {
-                case 1 -> bookingCLI.menu();
-                case 0 -> System.out.println(" Thoát chương trình...");
-                default -> System.out.println(" Lựa chọn không hợp lệ!");
-            }
-
-        } while (choice != 0);
+        System.out.println(" Hệ thống đã thoát. Cảm ơn bạn!");
     }
 }
