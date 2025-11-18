@@ -4,7 +4,6 @@ import model.Food;
 import model.Drink;
 import model.MenuItem;
 import service.MenuService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -37,16 +36,16 @@ public class MenuItemCLI {
                 case 2 -> addMenuItem();
                 case 3 -> updateMenuItem();
                 case 4 -> deleteMenuItem();
-                case 5 -> searchMenuItem();   // đã FIX
+                case 5 -> searchMenuItem();
                 case 6 -> sortMenuItems();
                 case 0 -> System.out.println("↩ Quay lại menu chính...");
-                default -> System.out.println(" Lựa chọn không hợp lệ!");
+                default -> System.out.println("❌ Lựa chọn không hợp lệ!");
             }
         } while (choice != 0);
     }
 
     // =========================
-    //  TÌM KIẾM MÓN ĂN  (FIX)
+    //  TÌM KIẾM MÓN ĂN
     // =========================
     private void searchMenuItem() {
         System.out.println("\n--- TÌM KIẾM MÓN ĂN ---");
@@ -69,19 +68,18 @@ public class MenuItemCLI {
                 results = menuService.searchByType(type);
             }
             default -> {
-                System.out.println(" Lựa chọn không hợp lệ!");
+                System.out.println("❌ Lựa chọn không hợp lệ!");
                 return;
             }
         }
 
         if (results.isEmpty()) {
-            System.out.println(" Không tìm thấy món nào!");
+            System.out.println("❌ Không tìm thấy món nào!");
         } else {
             System.out.println("\nKẾT QUẢ TÌM KIẾM:");
             results.forEach(System.out::println);
         }
     }
-
 
     // =========================
     //  THÊM MÓN
@@ -99,16 +97,15 @@ public class MenuItemCLI {
         double discount = Double.parseDouble(sc.nextLine());
 
         MenuItem item = (typeChoice == 1)
-                ? new Food( name, price, discount)
-                : new Drink( name, price, discount);
-
+                ? new Food(name, price, discount)
+                : new Drink(name, price, discount);
         menuService.addMenuItem(item);
+        menuService.saveMenu();  // Thêm dòng này để lưu vào file CSV
         System.out.println("✔ Đã thêm món mới!");
     }
 
-
     // =========================
-    //  SỬA MÓN
+    //  SỬA MÓN (CẬP NHẬT: GỌI saveMenu())
     // =========================
     private void updateMenuItem() {
         System.out.print("Nhập mã món cần sửa: ");
@@ -117,29 +114,39 @@ public class MenuItemCLI {
         String name = sc.nextLine();
         System.out.print("Giá mới: ");
         double price = Double.parseDouble(sc.nextLine());
-        System.out.print("Giảm giá mới: ");
+        System.out.print("Giảm giá mới (vd 0.1 cho 10%): ");
         double discount = Double.parseDouble(sc.nextLine());
 
-        if (menuService.updateMenuItem(id, name, price, discount))
+        if (menuService.updateMenuItem(id, name, price, discount)) {
             System.out.println("✔ Cập nhật thành công!");
-        else
-            System.out.println(" Không tìm thấy món!");
+            menuService.saveMenu();  // Lưu thay đổi vào file
+        } else {
+            System.out.println("❌ Không tìm thấy món với ID: " + id);
+        }
     }
 
-
     // =========================
-    //  XÓA MÓN
+    //  XÓA MÓN (CẬP NHẬT: XÁC NHẬN VÀ GỌI saveMenu())
     // =========================
     private void deleteMenuItem() {
         System.out.print("Nhập mã món cần xóa: ");
         String id = sc.nextLine();
 
-        if (menuService.deleteMenuItem(id))
-            System.out.println("✔ Đã xóa món!");
-        else
-            System.out.println(" Không tìm thấy mã món!");
-    }
+        // Xác nhận trước khi xóa
+        System.out.print("Bạn có chắc muốn xóa món này? (y/n): ");
+        String confirm = sc.nextLine();
+        if (!confirm.equalsIgnoreCase("y")) {
+            System.out.println("❌ Đã hủy thao tác xóa.");
+            return;
+        }
 
+        if (menuService.deleteMenuItem(id)) {
+            System.out.println("✔ Đã xóa món thành công!");
+            menuService.saveMenu();  // Lưu thay đổi vào file
+        } else {
+            System.out.println("❌ Không tìm thấy món với ID: " + id);
+        }
+    }
 
     // =========================
     //  SẮP XẾP MÓN
@@ -161,7 +168,7 @@ public class MenuItemCLI {
             case 3 -> sorted = menuService.sortByDiscount(true);
             case 4 -> sorted = menuService.sortByDiscount(false);
             default -> {
-                System.out.println(" Lựa chọn không hợp lệ!");
+                System.out.println("❌ Lựa chọn không hợp lệ!");
                 return;
             }
         }
