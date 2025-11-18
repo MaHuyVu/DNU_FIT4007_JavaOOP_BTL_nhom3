@@ -1,8 +1,8 @@
 package CLI;
 
-import model.MenuItem;
 import model.Food;
 import model.Drink;
+import model.MenuItem;
 import service.MenuService;
 
 import java.util.ArrayList;
@@ -99,8 +99,8 @@ public class MenuItemCLI {
         double discount = Double.parseDouble(sc.nextLine());
 
         MenuItem item = (typeChoice == 1)
-                ? new Food(id, name, price, discount)
-                : new Drink(id, name, price, discount);
+                ? new Food( name, price, discount)
+                : new Drink( name, price, discount);
 
         menuService.addMenuItem(item);
         System.out.println("✔ Đã thêm món mới!");

@@ -4,19 +4,21 @@ import java.io.Serializable;
 
 public class Food extends MenuItem implements Serializable {
 
-    private boolean spicy; // Món có cay hay không
+    private boolean spicy;
 
-    public Food(String name, String price, double discount, double spicy) {
-        super(name, Double.parseDouble(price), discount);
+    public Food(String name, double price, double discount) {
+        super(name, price, discount);
+        this.spicy = false;
     }
 
-    public Food(String name, double v, double discount) {
-        super(name , v , discount);
+    public Food(String name, double price, double discount, boolean spicy) {
+        super(name, price, discount);
+        this.spicy = spicy;
     }
 
     @Override
     public String getType() {
-        return "";
+        return "FOOD";
     }
 
     public boolean isSpicy() {
@@ -30,6 +32,6 @@ public class Food extends MenuItem implements Serializable {
     @Override
     public String toString() {
         return String.format("🍛 Món ăn: %s | Giá: %.0f₫ | Giảm giá: %.0f%% | %s",
-                getName(), getPrice(), getDiscount(), (spicy ? "Cay" : "Không cay"));
+                getName(), getPrice(), getDiscount() * 100, (spicy ? "Cay" : "Không cay"));
     }
 }

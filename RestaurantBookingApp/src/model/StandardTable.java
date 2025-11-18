@@ -1,13 +1,20 @@
+
 package model;
 
+// ============================
+//  STANDARD TABLE
+// ============================
 public class StandardTable extends Table {
 
-    public StandardTable(String i, int seats) {
-        super(seats, 0);  // ✅ Sửa: truyền đúng tham số
+    public StandardTable(String number, int capacity) {
+        super(number, capacity);
+        this.type = "STANDARD";
+        this.surcharge = 0;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " | Surcharge: 0đ";
+        return String.format("Table[%s] #%d | STANDARD | Capacity: %d | Status: %s",
+                id, number, capacity, status);
     }
 }

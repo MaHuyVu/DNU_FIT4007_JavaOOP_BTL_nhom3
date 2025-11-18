@@ -6,66 +6,53 @@ import java.util.UUID;
 public class Table implements Serializable {
     protected String id;
     protected String type;
-    protected int seats;
+    protected int number;
+    protected int capacity;
     protected double surcharge;
-    private int number;
-    private int capacity;
-    private TableStatus status = TableStatus.AVAILABLE;
+    protected TableStatus status = TableStatus.AVAILABLE;
 
-    // ============================
-    //  CONSTRUCTORS
-    // ============================
-    public Table(String seats, double surcharge) {
-        this.id = UUID.randomUUID().toString();
-        this.seats = Integer.parseInt(seats);
-        this.surcharge = surcharge;
-        this.capacity = Integer.parseInt(seats);  // Mặc định capacity = seats
-    }
-
-    public Table(String id, int seats, double surcharge) {
-        this.id = id;
-        this.seats = seats;
-        this.surcharge = surcharge;
-        this.capacity = seats;
-    }
-
-    public Table(String id, String type, int seats, double surcharge) {
-        this.id = id;
-        this.type = type;
-        this.seats = seats;
-        this.surcharge = surcharge;
-        this.capacity = seats;
-    }
-
+    // Constructor 1: Với number và capacity
     public Table(int number, int capacity) {
         this.id = UUID.randomUUID().toString();
         this.number = number;
         this.capacity = capacity;
-        this.seats = capacity;
         this.surcharge = 0.0;
+        this.type = "STANDARD";
     }
 
-    // ============================
-    //  GETTERS
-    // ============================
+    // Constructor 2: Với String number (cho VipTable/StandardTable)
+    public Table(String number, int capacity) {
+        this.id = UUID.randomUUID().toString();
+        try {
+            this.number = Integer.parseInt(number);
+        } catch (NumberFormatException e) {
+            this.number = 0;
+        }
+        this.capacity = capacity;
+        this.surcharge = 0.0;
+        this.type = "STANDARD";
+    }
+
+    // Constructor 3: Đầy đủ tham số
+    public Table(String id, String type, int number, int capacity, double surcharge) {
+        this.id = id;
+        this.type = type;
+        this.number = number;
+        this.capacity = capacity;
+        this.surcharge = surcharge;
+    }
+
+    // Getters
     public String getId() {
         return id;
     }
 
     public String getTableId() {
-        return id;  // Alias cho getId()
+        return id;
     }
 
     public String getType() {
         return type;
-    }
-
-    public int getSeats() {
-        return seats;
-    }
-
-    public double getSurcharge() {
-        return surcharge;
     }
 
     public int getNumber() {
@@ -76,13 +63,19 @@ public class Table implements Serializable {
         return capacity;
     }
 
+    public int getSeats() {
+        return capacity; // Alias
+    }
+
+    public double getSurcharge() {
+        return surcharge;
+    }
+
     public TableStatus getStatus() {
         return status;
     }
 
-    // ============================
-    //  SETTERS
-    // ============================
+    // Setters
     public void setId(String id) {
         this.id = id;
     }
@@ -91,24 +84,24 @@ public class Table implements Serializable {
         this.type = type;
     }
 
-    public void setSeats(int seats) {
-        this.seats = seats;
-    }
-
-    public void setSeatCount(int newSeats) {
-        this.seats = newSeats;  // Alias cho setSeats()
-    }
-
-    public void setSurcharge(double surcharge) {
-        this.surcharge = surcharge;
-    }
-
     public void setNumber(int number) {
         this.number = number;
     }
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
+    }
+
+    public void setSeats(int seats) {
+        this.capacity = seats; // Alias
+    }
+
+    public void setSeatCount(int newSeats) {
+        this.capacity = newSeats; // Alias
+    }
+
+    public void setSurcharge(double surcharge) {
+        this.surcharge = surcharge;
     }
 
     public void setStatus(TableStatus status) {
@@ -123,9 +116,7 @@ public class Table implements Serializable {
         }
     }
 
-    // ============================
-    //  UTILITY METHODS
-    // ============================
+    // Utility methods
     public boolean isAvailable() {
         return status == TableStatus.AVAILABLE;
     }
@@ -146,18 +137,12 @@ public class Table implements Serializable {
         return surcharge;
     }
 
-    // ============================
-    //  TOSTRING
-    // ============================
     @Override
     public String toString() {
-        return String.format("Table[%s] Type: %s, Seats: %d, Surcharge: %.0f₫, Status: %s",
-                id, type, seats, surcharge, status);
+        return String.format("Table[%s] #%d | Type: %s | Capacity: %d | Surcharge: %.0f₫ | Status: %s",
+                id, number, type, capacity, surcharge, status);
     }
 
-    // ============================
-    //  EQUALS & HASHCODE
-    // ============================
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;

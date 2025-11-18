@@ -9,18 +9,29 @@ public class Booking implements Serializable {
     private Table table;
     private String date;
     private String time;
-    private String status; // "Pending", "Confirmed", "Completed", "Cancelled"
+    private int guests;
+    private String status; // "PENDING", "CONFIRMED", "COMPLETED", "CANCELLED"
 
+    // Constructor 1: Tự động tạo ID
     public Booking(Customer customer, Table table, String date, String time) {
         this.id = UUID.randomUUID().toString();
         this.customer = customer;
         this.table = table;
         this.date = date;
         this.time = time;
-        this.status = "Pending";
+        this.guests = table.getCapacity();
+        this.status = "PENDING";
     }
 
+    // Constructor 2: Chỉ định ID (dùng khi load từ file)
     public Booking(String id, Customer customer, Table table, String date, String time, int guests, String status) {
+        this.id = id;
+        this.customer = customer;
+        this.table = table;
+        this.date = date;
+        this.time = time;
+        this.guests = guests;
+        this.status = status;
     }
 
     // Getters
@@ -44,6 +55,10 @@ public class Booking implements Serializable {
         return time;
     }
 
+    public int getGuests() {
+        return guests;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -65,14 +80,18 @@ public class Booking implements Serializable {
         this.time = time;
     }
 
+    public void setGuests(int guests) {
+        this.guests = guests;
+    }
+
     public void setStatus(String status) {
         this.status = status;
     }
 
     @Override
     public String toString() {
-        return String.format("Booking[%s] Customer: %s, Table: %s (%d seats), Date: %s, Time: %s, Status: %s",
-                id, customer.getName(), table.getType(), table.getSeats(), date, time, status);
+        return String.format("Booking[%s] Customer: %s, Table: %s (%d seats), Date: %s, Time: %s, Guests: %d, Status: %s",
+                id, customer.getName(), table.getId(), table.getCapacity(), date, time, guests, status);
     }
 
     @Override

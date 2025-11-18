@@ -1,4 +1,4 @@
-package util;
+package Iface;
 
 @FunctionalInterface
 public interface DiscountPolicy {

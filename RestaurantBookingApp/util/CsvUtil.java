@@ -1,102 +1,140 @@
 package util;
 
 import model.*;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class CsvUtil {
 
+    // ============================
+    //  READ MENU
+    // ============================
     public static List<MenuItem> readMenu(String filePath) {
-        List<MenuItem> list = new ArrayList<>();
-
+        List<MenuItem> items = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-
+            br.readLine(); // Skip header
             String line;
-            boolean isHeader = true;
 
             while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length < 5) continue;
 
-                if (isHeader) {
-                    isHeader = false;
-                    continue;
-                }
+                String id = data[0].trim();
+                String name = data[1].trim();
+                String type = data[2].trim();
+                double price = Double.parseDouble(data[3].trim());
+                double discount = Double.parseDouble(data[4].trim());
 
-                String[] parts = line.split(",");
-
-                if (parts.length < 5) continue;
-
-                String id = parts[0].trim();
-                String name = parts[1].trim();
-                String type = parts[2].trim().toUpperCase();
-                double price = Double.parseDouble(parts[3].trim());
-                double discount = Double.parseDouble(parts[4].trim());
-
-                MenuItem item;
-
-                if (type.equals("FOOD")) {
-                    item = new Food(id, name, price, discount);
-                } else {
-                    item = new Drink(id, name, price, discount);
-                }
-
-                list.add(item);
+                MenuItem item = type.equalsIgnoreCase("FOOD")
+                        ? new Food(name, price, discount)
+                        : new Drink(name, price, discount);
+                item.setId(id);
+                items.add(item);
             }
 
-        } catch (Exception e) {
-            System.out.println("Lỗi đọc menu CSV: " + e.getMessage());
+        } catch (FileNotFoundException e) {
+            System.err.println("❌ File không tồn tại: " + filePath);
+        } catch (IOException e) {
+            System.err.println("❌ Lỗi đọc menu: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("❌ Lỗi định dạng số trong file menu");
         }
-
-        return list;
+        return items;
     }
 
-
+    // ============================
+    //  READ TABLES
+    // ============================
     public static List<Table> readTables(String filePath) {
-        List<Table> list = new ArrayList<>();
-
+        List<Table> tables = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine(); // Skip header
             String line;
-            boolean isFirstLine = true;
 
             while ((line = br.readLine()) != null) {
-                if (isFirstLine) {
-                    isFirstLine = false;
-                    continue; // Bỏ qua dòng header
-                }
+                String[] data = line.split(",");
+                if (data.length < 6) continue;
 
-                String[] parts = line.split(",");
-                if (parts.length >= 4) {
-                    String id = parts[0].trim();
-                    String type = parts[1].trim();
-                    int seats = Integer.parseInt(parts[2].trim());
-                    double surcharge = Double.parseDouble(parts[3].trim());
+                String id = data[0].trim();
+                String number = data[1].trim();
+                int capacity = Integer.parseInt(data[2].trim());
+                String type = data[3].trim();
+                String status = data[4].trim();
+                double surcharge = Double.parseDouble(data[5].trim());
 
-                    Table table;
-                    if (type.equalsIgnoreCase("VIP")) {
-                        table = new VipTable(id, seats, surcharge);
-                    } else {
-                        table = new StandardTable(id, seats);
-                    }
+                Table table = type.equalsIgnoreCase("VIP")
+                        ? new VipTable(number, capacity, surcharge)
+                        : new StandardTable(number, capacity);
 
-                    list.add(table);
-                }
+                table.setId(id);
+                table.setStatus(status);
+                tables.add(table);
             }
-        } catch (Exception e) {
-            System.out.println("Lỗi đọc file tables CSV: " + e.getMessage());
+
+        } catch (FileNotFoundException e) {
+            System.err.println("❌ File không tồn tại: " + filePath);
+        } catch (IOException e) {
+            System.err.println("❌ Lỗi đọc tables: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("❌ Lỗi định dạng số trong file tables");
         }
-
-        return list;
+        return tables;
     }
 
+    // ============================
+    //  WRITE TABLES
+    // ============================
     public static void writeTables(String filePath, List<Table> tables) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("id,number,capacity,type,status,surcharge\n");
+
+            for (Table table : tables) {
+                String type = table instanceof VipTable ? "VIP" : "STANDARD";
+                String line = String.format("%s,%d,%d,%s,%s,%.0f\n",
+                        table.getId(),
+                        table.getNumber(),
+                        table.getCapacity(),
+                        type,
+                        table.getStatus().name(),
+                        table.getSurcharge()
+                );
+                bw.write(line);
+            }
+
+        } catch (IOException e) {
+            System.err.println("❌ Lỗi ghi tables: " + e.getMessage());
+        }
     }
 
-    public static void write(String file, List<String[]> data) {
+    // ============================
+    //  GENERIC READ CSV
+    // ============================
+    public static List<String[]> read(String filePath) {
+        List<String[]> rows = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                rows.add(line.split(","));
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("❌ File không tồn tại: " + filePath);
+        } catch (IOException e) {
+            System.err.println("❌ Lỗi đọc file: " + e.getMessage());
+        }
+        return rows;
     }
 
-    public static List<String[]> read(String file) {
-        return null;
+    // ============================
+    //  GENERIC WRITE CSV
+    // ============================
+    public static void write(String filePath, List<String[]> data) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (String[] row : data) {
+                bw.write(String.join(",", row));
+                bw.write("\n");
+            }
+        } catch (IOException e) {
+            System.err.println("❌ Lỗi ghi file: " + e.getMessage());
+        }
     }
 }
