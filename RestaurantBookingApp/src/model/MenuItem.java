@@ -1,5 +1,7 @@
 package model;
 
+import java.util.UUID;
+
 public abstract class MenuItem {
 
     protected String id;
@@ -7,8 +9,8 @@ public abstract class MenuItem {
     protected double price;
     protected double discount;
 
-    public MenuItem(String id, double price, double discount) {
-        this.id = id;
+    public MenuItem(String name, double price, double discount) {
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.price = price;
         this.discount = discount;
@@ -18,25 +20,28 @@ public abstract class MenuItem {
         return id;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public double getDiscount() {
-        return discount;
-    }
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
     }
 
     public void setDiscount(double discount) {
@@ -47,14 +52,11 @@ public abstract class MenuItem {
 
     @Override
     public String toString() {
-        return id + " | " + name + " | " + getType() + " | " + price + " | discount: " + discount;
+        return String.format("%s | %s | %s | %.0f₫ | Giảm: %.0f%%",
+                id, name, getType(), price, discount * 100);
     }
 
     public double getDiscountedPrice() {
-        double discountAmount = price * discount / 100;
-        return price - discountAmount;
-    }
-
-    public void setId(String generate) {
+        return price * (1 - discount);
     }
 }

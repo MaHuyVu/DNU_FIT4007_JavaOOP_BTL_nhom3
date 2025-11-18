@@ -12,12 +12,8 @@ public class TableCLI {
     private TableService tableService;
 
 
-    // Constructor chính - chỉ giữ cái này
-    public TableCLI(TableService tableService) {
-        this.tableService = tableService;
-    }
 
-    public TableCLI(String id, int seats, String status) {
+    public TableCLI(TableService tableService) {
         this.tableService = tableService;
     }
 

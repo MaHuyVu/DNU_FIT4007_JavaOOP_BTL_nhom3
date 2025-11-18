@@ -1,65 +1,100 @@
 package service;
 
-import model.Booking;
-import model.Invoice;
-import model.MenuItem;
+import model.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class InvoiceService {
     private final List<Invoice> invoices = new ArrayList<>();
 
-    /**
-     * Tạo hóa đơn từ một booking và danh sách món.
-     * Trả về Invoice vừa tạo.
-     */
     public Invoice createInvoice(Booking booking, List<MenuItem> items) {
         double total = 0;
         if (items != null) {
             for (MenuItem item : items) {
-                // dùng alias getDiscountedPrice() để tương thích với tên cũ
                 total += item.getDiscountedPrice();
             }
         }
-        // cộng phụ phí bàn nếu có
+        // Cộng phụ phí bàn nếu có
         total += booking.getTable().getSurcharge();
 
-        Invoice invoice = new Invoice(booking, (items == null) ? new String() : String.valueOf(new ArrayList<>(items)), total);
+        Invoice invoice = new Invoice(booking.getId(), items, total);
         invoices.add(invoice);
         System.out.println("🧾 Hóa đơn được tạo cho " + booking.getCustomer().getName()
-                + " | Total: " + (long) total + "₫");
+                + " | Total: " + String.format("%.0f", total) + "₫");
         return invoice;
     }
 
-    /**
-     * Xuất tất cả hóa đơn hiện có ra file CSV.
-     * Format header: id,customerName,tableId,createdAt,total,itemIds
-     */
-    public void exportToCSV(String filename) {
-        try (FileWriter writer = new FileWriter(filename)) {
-            writer.append("id,customerName,tableId,createdAt,total,itemIds\n");
-            for (Invoice inv : invoices) {
-                writer.append(inv.toCsvLine()).append("\n");
-            }
-            System.out.println("📁 Đã xuất " + invoices.size() + " hóa đơn ra " + filename);
-        } catch (IOException e) {
-            System.err.println("Lỗi khi ghi file CSV: " + e.getMessage());
-        }
+    public void addInvoice(Invoice invoice) {
+        invoices.add(invoice);
     }
 
     public List<Invoice> getInvoices() {
         return invoices;
     }
 
-    public void addInvoice(Invoice invoice) {
+    public void saveInvoices(String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            bw.write("id,bookingId,items,total,discount,finalAmount,date\n");
+
+            for (Invoice inv : invoices) {
+                String itemsStr = "";
+                if (inv.getItems() != null && !inv.getItems().isEmpty()) {
+                    itemsStr = inv.getItems().stream()
+                            .map(MenuItem::getId)
+                            .reduce((a, b) -> a + "|" + b)
+                            .orElse("");
+                }
+
+                String line = String.format("%s,%s,%s,%.0f,%.0f,%.0f,%s\n",
+                        inv.getId(),
+                        inv.getBookingId(),
+                        itemsStr,
+                        inv.getTotalAmount(),
+                        0.0,
+                        inv.getTotalAmount(),
+                        LocalDate.now().toString()
+                );
+                bw.write(line);
+            }
+            System.out.println("✅ Lưu " + invoices.size() + " hóa đơn thành công.");
+        } catch (IOException e) {
+            System.out.println("❌ Lỗi lưu invoice: " + e.getMessage());
+        }
     }
 
-    public void saveInvoices(String invoiceFile) {
+    public void loadInvoices(String filePath) {
+        invoices.clear();
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            br.readLine(); // Skip header
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length < 7) continue;
+
+                String id = data[0].trim();
+                String bookingId = data[1].trim();
+                String itemsStr = data[2].trim();
+                double total = Double.parseDouble(data[3].trim());
+
+                // Parse items (cần MenuService để load đầy đủ)
+                List<MenuItem> items = new ArrayList<>();
+
+                Invoice invoice = new Invoice(id, bookingId, items, total);
+                invoices.add(invoice);
+            }
+            System.out.println("✅ Load " + invoices.size() + " invoice từ file.");
+        } catch (FileNotFoundException e) {
+            System.out.println("⚠ File không tồn tại: " + filePath);
+        } catch (Exception e) {
+            System.out.println("❌ Lỗi load invoice: " + e.getMessage());
+        }
     }
 
-    public void loadInvoices(String s) {
+    public void exportToCSV(String filename) {
+        saveInvoices(filename);
     }
 }

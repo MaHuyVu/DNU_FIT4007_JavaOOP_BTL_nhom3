@@ -15,8 +15,16 @@ public abstract class Person implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPhone() {
         return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override
@@ -24,12 +32,9 @@ public abstract class Person implements Serializable {
         return "Name: " + name + " | Phone: " + phone;
     }
 
-    public abstract void setId(String generate);
-
+    // Abstract methods để Customer implement
+    public abstract void setId(String id);
     public abstract String getId();
-
-    public abstract String getEmail() ;
-
-
-    public abstract boolean isVip() ;
+    public abstract String getEmail();
+    public abstract boolean isVip();
 }

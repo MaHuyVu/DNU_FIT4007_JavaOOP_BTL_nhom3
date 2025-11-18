@@ -76,7 +76,7 @@ public class BookingCLI {
             bookingService.saveBookings(FILE_PATH);
 
         } catch (Exception e) {
-            System.out.println("❌ " + e.getMessage());
+            System.out.println(" " + e.getMessage());
         }
     }
 
@@ -87,17 +87,17 @@ public class BookingCLI {
 
         try {
             bookingService.cancelBooking(bookingId);
-            System.out.println("✔ Đã hủy đặt bàn thành công!");
+            System.out.println(" Đã hủy đặt bàn thành công!");
 
             bookingService.saveBookings(FILE_PATH);
 
         } catch (Exception e) {
-            System.out.println("❌ " + e.getMessage());
+            System.out.println(" " + e.getMessage());
         }
     }
 
     private void listBookings() {
-        System.out.println("\n📋 DANH SÁCH ĐẶT BÀN:");
+        System.out.println("\n DANH SÁCH ĐẶT BÀN:");
         List<Booking> bookings = bookingService.getBookings();
 
         if (bookings.isEmpty()) {
