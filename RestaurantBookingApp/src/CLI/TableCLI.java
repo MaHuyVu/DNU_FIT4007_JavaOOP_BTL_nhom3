@@ -34,8 +34,8 @@ public class TableCLI {
                 case 2 -> addTable();
                 case 3 -> updateTable();
                 case 4 -> deleteTable();
-                case 0 -> System.out.println("↩ Quay về menu chính...");
-                default -> System.out.println("❌ Lựa chọn không hợp lệ!");
+                case 0 -> System.out.println(" Quay về menu chính...");
+                default -> System.out.println(" Lựa chọn không hợp lệ!");
             }
 
         } while (choice != 0);
@@ -71,9 +71,9 @@ public class TableCLI {
             }
 
             tableService.addTable(table);
-            System.out.println("✔ Thêm bàn thành công!");
+            System.out.println(" Thêm bàn thành công!");
         } catch (Exception e) {
-            System.out.println("❌ Lỗi: " + e.getMessage());
+            System.out.println(" Lỗi: " + e.getMessage());
         }
     }
     private void updateTable() {
@@ -90,7 +90,7 @@ public class TableCLI {
 
         boolean success = tableService.updateTable(id, seats, surcharge);
         if (!success) {
-            System.out.println("❌ Không tìm thấy bàn với ID: " + id);
+            System.out.println(" Không tìm thấy bàn với ID: " + id);
         }
     }
     private void deleteTable() {
@@ -105,10 +105,10 @@ public class TableCLI {
         if (confirm.equalsIgnoreCase("y")) {
             boolean success = tableService.deleteTable(id);
             if (!success) {
-                System.out.println("❌ Không tìm thấy bàn với ID: " + id);
+                System.out.println(" Không tìm thấy bàn với ID: " + id);
             }
         } else {
-            System.out.println("❌ Đã hủy thao tác xóa.");
+            System.out.println(" Đã hủy thao tác xóa.");
         }
     }
     public void setSeatCount(int newSeats) {

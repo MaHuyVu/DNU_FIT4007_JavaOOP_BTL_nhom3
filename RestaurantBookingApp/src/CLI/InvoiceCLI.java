@@ -83,7 +83,7 @@ public class InvoiceCLI {
             MenuItem item = menuService.findById(itemId);
             if (item != null) {
                 orderedItems.add(item);
-                System.out.println("✔ Đã thêm món: " + item.getName());
+                System.out.println(" Đã thêm món: " + item.getName());
             } else {
                 System.out.println(" Không tìm thấy món!");
             }
@@ -128,6 +128,6 @@ public class InvoiceCLI {
 
     private void exportInvoices() {
         invoiceService.saveInvoices(INVOICE_FILE);
-        System.out.println("✔ Đã xuất hóa đơn ra: " + INVOICE_FILE);
+        System.out.println(" Đã xuất hóa đơn ra: " + INVOICE_FILE);
     }
 }

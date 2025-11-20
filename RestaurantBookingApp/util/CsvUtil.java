@@ -6,13 +6,11 @@ import java.util.*;
 
 public class CsvUtil {
 
-    // ============================
-    //  READ MENU
-    // ============================
+
     public static List<MenuItem> readMenu(String filePath) {
         List<MenuItem> items = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Skip header
+            br.readLine();
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -33,22 +31,20 @@ public class CsvUtil {
             }
 
         } catch (FileNotFoundException e) {
-            System.err.println("❌ File không tồn tại: " + filePath);
+            System.err.println(" File không tồn tại: " + filePath);
         } catch (IOException e) {
-            System.err.println("❌ Lỗi đọc menu: " + e.getMessage());
+            System.err.println(" Lỗi đọc menu: " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.err.println("❌ Lỗi định dạng số trong file menu");
+            System.err.println(" Lỗi định dạng số trong file menu");
         }
         return items;
     }
 
-    // ============================
-    //  READ TABLES
-    // ============================
+
     public static List<Table> readTables(String filePath) {
         List<Table> tables = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Skip header
+            br.readLine();
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -72,18 +68,16 @@ public class CsvUtil {
             }
 
         } catch (FileNotFoundException e) {
-            System.err.println("❌ File không tồn tại: " + filePath);
+            System.err.println(" File không tồn tại: " + filePath);
         } catch (IOException e) {
-            System.err.println("❌ Lỗi đọc tables: " + e.getMessage());
+            System.err.println(" Lỗi đọc tables: " + e.getMessage());
         } catch (NumberFormatException e) {
-            System.err.println("❌ Lỗi định dạng số trong file tables");
+            System.err.println(" Lỗi định dạng số trong file tables");
         }
         return tables;
     }
 
-    // ============================
-    //  WRITE TABLES
-    // ============================
+
     public static void writeTables(String filePath, List<Table> tables) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             bw.write("id,number,capacity,type,status,surcharge\n");
@@ -102,13 +96,10 @@ public class CsvUtil {
             }
 
         } catch (IOException e) {
-            System.err.println("❌ Lỗi ghi tables: " + e.getMessage());
+            System.err.println(" Lỗi ghi tables: " + e.getMessage());
         }
     }
 
-    // ============================
-    //  GENERIC READ CSV
-    // ============================
     public static List<String[]> read(String filePath) {
         List<String[]> rows = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -117,16 +108,13 @@ public class CsvUtil {
                 rows.add(line.split(","));
             }
         } catch (FileNotFoundException e) {
-            System.err.println("❌ File không tồn tại: " + filePath);
+            System.err.println(" File không tồn tại: " + filePath);
         } catch (IOException e) {
-            System.err.println("❌ Lỗi đọc file: " + e.getMessage());
+            System.err.println(" Lỗi đọc file: " + e.getMessage());
         }
         return rows;
     }
 
-    // ============================
-    //  GENERIC WRITE CSV
-    // ============================
     public static void write(String filePath, List<String[]> data) {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
             for (String[] row : data) {
@@ -134,7 +122,7 @@ public class CsvUtil {
                 bw.write("\n");
             }
         } catch (IOException e) {
-            System.err.println("❌ Lỗi ghi file: " + e.getMessage());
+            System.err.println(" Lỗi ghi file: " + e.getMessage());
         }
     }
 }

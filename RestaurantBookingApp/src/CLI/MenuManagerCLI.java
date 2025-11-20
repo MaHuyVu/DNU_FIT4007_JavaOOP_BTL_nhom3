@@ -22,10 +22,10 @@ public class MenuManagerCLI {
     private InvoiceCLI invoiceCLI;
     private ReportCLI reportCLI;
 
-    private List<Table> tables; // ✅ ĐỔI TÊN từ BookingService sang tables
+    private List<Table> tables;
 
     public void start() {
-        // Load dữ liệu từ file
+
         tables = tableService.loadTables("data/tables.csv");
         menuService.loadMenu("data/menu.csv");
         invoiceService.loadInvoices("data/invoices.csv");
@@ -33,10 +33,10 @@ public class MenuManagerCLI {
         bookingService = new BookingService(tables);
         bookingService.loadBookings("data/bookings.csv");
 
-        // Khởi tạo các CLI
+
         tableCLI = new TableCLI(tableService);
         menuItemCLI = new MenuItemCLI(menuService);
-        bookingCLI = new BookingCLI(tables); // ✅ TRUYỀN tables thay vì BookingService
+        bookingCLI = new BookingCLI(tables);
         invoiceCLI = new InvoiceCLI(invoiceService, bookingService, menuService);
         reportCLI = new ReportCLI(reportService, invoiceService, menuService);
 
@@ -62,8 +62,8 @@ public class MenuManagerCLI {
                 case 4 -> invoiceCLI.menu();
                 case 5 -> reportCLI.menu();
                 case 6 -> advancedSearch();
-                case 0 -> System.out.println("👋 Đang thoát chương trình...");
-                default -> System.out.println("❌ Lựa chọn không hợp lệ!");
+                case 0 -> System.out.println(" Đang thoát chương trình...");
+                default -> System.out.println(" Lựa chọn không hợp lệ!");
             }
         } while (choice != 0);
     }
@@ -88,7 +88,7 @@ public class MenuManagerCLI {
             case 1 -> searchByPriceRange();
             case 2 -> searchByDiscount();
             case 3 -> searchKeywordAndType();
-            default -> System.out.println("❌ Lựa chọn không hợp lệ!");
+            default -> System.out.println(" Lựa chọn không hợp lệ!");
         }
     }
 
@@ -102,9 +102,9 @@ public class MenuManagerCLI {
         var results = menuService.searchByPriceRange(min, max);
 
         if (results.isEmpty()) {
-            System.out.println("❌ Không tìm thấy món nào trong khoảng giá!");
+            System.out.println(" Không tìm thấy món nào trong khoảng giá!");
         } else {
-            System.out.println("\n✅ KẾT QUẢ TÌM KIẾM:");
+            System.out.println("\n KẾT QUẢ TÌM KIẾM:");
             results.forEach(System.out::println);
         }
     }
@@ -116,9 +116,9 @@ public class MenuManagerCLI {
         var results = menuService.searchByMinDiscount(discount);
 
         if (results.isEmpty()) {
-            System.out.println("❌ Không có món nào đủ mức giảm giá!");
+            System.out.println(" Không có món nào đủ mức giảm giá!");
         } else {
-            System.out.println("\n✅ KẾT QUẢ TÌM KIẾM:");
+            System.out.println("\n KẾT QUẢ TÌM KIẾM:");
             results.forEach(System.out::println);
         }
     }
@@ -133,9 +133,9 @@ public class MenuManagerCLI {
         var results = menuService.searchByKeywordAndType(keyword, type);
 
         if (results.isEmpty()) {
-            System.out.println("❌ Không có món phù hợp!");
+            System.out.println(" Không có món phù hợp!");
         } else {
-            System.out.println("\n✅ KẾT QUẢ TÌM KIẾM:");
+            System.out.println("\n KẾT QUẢ TÌM KIẾM:");
             results.forEach(System.out::println);
         }
     }
