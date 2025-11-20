@@ -17,12 +17,12 @@ public class InvoiceService {
                 total += item.getDiscountedPrice();
             }
         }
-        // Cộng phụ phí bàn nếu có
+
         total += booking.getTable().getSurcharge();
 
         Invoice invoice = new Invoice(booking.getId(), items, total);
         invoices.add(invoice);
-        System.out.println("🧾 Hóa đơn được tạo cho " + booking.getCustomer().getName()
+        System.out.println(" Hóa đơn được tạo cho " + booking.getCustomer().getName()
                 + " | Total: " + String.format("%.0f", total) + "₫");
         return invoice;
     }
@@ -59,16 +59,16 @@ public class InvoiceService {
                 );
                 bw.write(line);
             }
-            System.out.println("✅ Lưu " + invoices.size() + " hóa đơn thành công.");
+            System.out.println(" Lưu " + invoices.size() + " hóa đơn thành công.");
         } catch (IOException e) {
-            System.out.println("❌ Lỗi lưu invoice: " + e.getMessage());
+            System.out.println(" Lỗi lưu invoice: " + e.getMessage());
         }
     }
 
     public void loadInvoices(String filePath) {
         invoices.clear();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            br.readLine(); // Skip header
+            br.readLine();
             String line;
 
             while ((line = br.readLine()) != null) {
@@ -80,17 +80,17 @@ public class InvoiceService {
                 String itemsStr = data[2].trim();
                 double total = Double.parseDouble(data[3].trim());
 
-                // Parse items (cần MenuService để load đầy đủ)
+
                 List<MenuItem> items = new ArrayList<>();
 
                 Invoice invoice = new Invoice(id, bookingId, items, total);
                 invoices.add(invoice);
             }
-            System.out.println("✅ Load " + invoices.size() + " invoice từ file.");
+            System.out.println(" Load " + invoices.size() + " invoice từ file.");
         } catch (FileNotFoundException e) {
-            System.out.println("⚠ File không tồn tại: " + filePath);
+            System.out.println(" File không tồn tại: " + filePath);
         } catch (Exception e) {
-            System.out.println("❌ Lỗi load invoice: " + e.getMessage());
+            System.out.println(" Lỗi load invoice: " + e.getMessage());
         }
     }
 

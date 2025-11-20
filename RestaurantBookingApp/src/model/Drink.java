@@ -4,11 +4,11 @@ import java.io.Serializable;
 
 public class Drink extends MenuItem implements Serializable {
 
-    private String size; // Kích cỡ: S, M, L
+    private String size;
 
     public Drink(String name, double price, double discount) {
         super(name, price, discount);
-        this.size = "M"; // Mặc định size M
+        this.size = "M";
     }
 
     public Drink(String name, double price, double discount, String size) {

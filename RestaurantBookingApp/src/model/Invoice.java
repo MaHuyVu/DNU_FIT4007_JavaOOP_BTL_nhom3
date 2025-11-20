@@ -12,7 +12,7 @@ public class Invoice {
     private double totalAmount;
     private LocalDate invoiceDate;
 
-    // Constructor 1: Tự động tạo ID
+
     public Invoice(String bookingId, List<MenuItem> items, double totalAmount) {
         this.id = "INV-" + System.currentTimeMillis();
         this.bookingId = bookingId;
@@ -21,7 +21,7 @@ public class Invoice {
         this.invoiceDate = LocalDate.now();
     }
 
-    // Constructor 2: Với ID cụ thể (khi load từ file)
+
     public Invoice(String id, String bookingId, List<MenuItem> items, double totalAmount) {
         this.id = id;
         this.bookingId = bookingId;
@@ -30,7 +30,7 @@ public class Invoice {
         this.invoiceDate = LocalDate.now();
     }
 
-    // Getters
+
     public String getId() {
         return id;
     }
@@ -71,7 +71,7 @@ public class Invoice {
         this.invoiceDate = invoiceDate;
     }
 
-    // Tính toán tổng tiền
+
     public double calculateTotal() {
         double sum = 0;
         if (items != null) {
@@ -83,7 +83,7 @@ public class Invoice {
         return sum;
     }
 
-    // Compatibility methods
+
     public double getTotal() {
         return totalAmount;
     }

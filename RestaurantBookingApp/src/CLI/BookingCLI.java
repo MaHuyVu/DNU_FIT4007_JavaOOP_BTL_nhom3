@@ -34,8 +34,8 @@ public class BookingCLI {
                 case 1 -> createBooking();
                 case 2 -> cancelBooking();
                 case 3 -> listBookings();
-                case 0 -> System.out.println("↩ Quay lại menu chính...");
-                default -> System.out.println("❌ Lựa chọn không hợp lệ!");
+                case 0 -> System.out.println(" Quay lại menu chính...");
+                default -> System.out.println(" Lựa chọn không hợp lệ!");
             }
         } while (choice != 0);
     }
@@ -46,7 +46,7 @@ public class BookingCLI {
             sc.next();
         }
         int result = sc.nextInt();
-        sc.nextLine(); // clear buffer
+        sc.nextLine();
         return result;
     }
 
@@ -70,7 +70,7 @@ public class BookingCLI {
 
         try {
             Booking booking = bookingService.bookTable(name, phone, tableId, date, time);
-            System.out.println("✔ Đặt bàn thành công!");
+            System.out.println(" Đặt bàn thành công!");
             System.out.println(booking);
 
             bookingService.saveBookings(FILE_PATH);

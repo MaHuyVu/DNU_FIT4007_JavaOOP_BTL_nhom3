@@ -139,15 +139,13 @@ public class MenuService {
         return result;
     }
 
-    // ============================
-    //  THÊM METHOD SAVE MENU (MỚI)
-    // ============================
+
     public void saveMenu() {
         try {
             List<String[]> data = new ArrayList<>();
-            data.add(new String[]{"id", "name", "type", "price", "discount"});  // Header
+            data.add(new String[]{"id", "name", "type", "price", "discount"});
             for (MenuItem item : menuItems) {
-                String type = item instanceof model.Food ? "FOOD" : "DRINK";  // Xác định type
+                String type = item instanceof model.Food ? "FOOD" : "DRINK";
                 data.add(new String[]{
                         item.getId(),
                         item.getName(),
@@ -156,10 +154,10 @@ public class MenuService {
                         String.valueOf(item.getDiscount())
                 });
             }
-            CsvUtil.write(FILE_PATH, data);  // Ghi ra file
-            System.out.println("✔ Đã lưu menu thành công!");
+            CsvUtil.write(FILE_PATH, data);
+            System.out.println(" Đã lưu menu thành công!");
         } catch (Exception e) {
-            System.out.println("❌ Lỗi khi lưu menu: " + e.getMessage());
+            System.out.println(" Lỗi khi lưu menu: " + e.getMessage());
         }
     }
 }

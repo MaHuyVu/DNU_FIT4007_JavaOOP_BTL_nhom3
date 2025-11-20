@@ -1,9 +1,7 @@
 
 package model;
 
-// ============================
-//  STANDARD TABLE
-// ============================
+
 public class StandardTable extends Table {
 
     public StandardTable(String number, int capacity) {

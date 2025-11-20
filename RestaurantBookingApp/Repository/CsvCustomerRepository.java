@@ -19,20 +19,20 @@ public class CsvCustomerRepository implements Repository<Customer, String> {
     public void add(Customer c) {
         c.setId(UUIDGenerator.generate());
         customers.add(c);
-        saveAll(customers);  // ✅ Chỉ gọi saveAll, KHÔNG có dấu chấm hay method nào phía sau
+        saveAll(customers);
     }
 
     @Override
     public void update(Customer c) {
         customers.removeIf(x -> x.getId().equals(c.getId()));
         customers.add(c);
-        saveAll(customers);  // ✅ Chỉ gọi saveAll, KHÔNG có gì phía sau
+        saveAll(customers);
     }
 
     @Override
     public void deleteById(String id) {
         customers.removeIf(c -> c.getId().equals(id));
-        saveAll(customers);  // ✅ Chỉ gọi saveAll, KHÔNG có gì phía sau
+        saveAll(customers);
     }
 
     @Override

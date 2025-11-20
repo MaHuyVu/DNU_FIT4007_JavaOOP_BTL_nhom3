@@ -32,7 +32,7 @@ public abstract class Person implements Serializable {
         return "Name: " + name + " | Phone: " + phone;
     }
 
-    // Abstract methods để Customer implement
+
     public abstract void setId(String id);
     public abstract String getId();
     public abstract String getEmail();

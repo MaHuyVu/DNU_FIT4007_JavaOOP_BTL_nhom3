@@ -11,7 +11,6 @@ public class Table implements Serializable {
     protected double surcharge;
     protected TableStatus status = TableStatus.AVAILABLE;
 
-    // Constructor 1: Với number và capacity
     public Table(int number, int capacity) {
         this.id = UUID.randomUUID().toString();
         this.number = number;
@@ -20,7 +19,7 @@ public class Table implements Serializable {
         this.type = "STANDARD";
     }
 
-    // Constructor 2: Với String number (cho VipTable/StandardTable)
+
     public Table(String number, int capacity) {
         this.id = UUID.randomUUID().toString();
         try {
@@ -33,7 +32,7 @@ public class Table implements Serializable {
         this.type = "STANDARD";
     }
 
-    // Constructor 3: Đầy đủ tham số
+
     public Table(String id, String type, int number, int capacity, double surcharge) {
         this.id = id;
         this.type = type;
@@ -42,7 +41,7 @@ public class Table implements Serializable {
         this.surcharge = surcharge;
     }
 
-    // Getters
+
     public String getId() {
         return id;
     }
@@ -64,7 +63,7 @@ public class Table implements Serializable {
     }
 
     public int getSeats() {
-        return capacity; // Alias
+        return capacity;
     }
 
     public double getSurcharge() {
@@ -75,7 +74,7 @@ public class Table implements Serializable {
         return status;
     }
 
-    // Setters
+
     public void setId(String id) {
         this.id = id;
     }
@@ -93,11 +92,11 @@ public class Table implements Serializable {
     }
 
     public void setSeats(int seats) {
-        this.capacity = seats; // Alias
+        this.capacity = seats;
     }
 
     public void setSeatCount(int newSeats) {
-        this.capacity = newSeats; // Alias
+        this.capacity = newSeats;
     }
 
     public void setSurcharge(double surcharge) {
@@ -112,11 +111,11 @@ public class Table implements Serializable {
         try {
             this.status = TableStatus.valueOf(newStatus.toUpperCase());
         } catch (IllegalArgumentException e) {
-            System.out.println("❌ Trạng thái không hợp lệ: " + newStatus);
+            System.out.println(" Trạng thái không hợp lệ: " + newStatus);
         }
     }
 
-    // Utility methods
+
     public boolean isAvailable() {
         return status == TableStatus.AVAILABLE;
     }
